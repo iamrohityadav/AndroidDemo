@@ -1,4 +1,4 @@
-#**(一)命名 命名风格 风格**
+# **(一)命名 命名风格 风格**
 1. 【强制】类名使用 UpperCamelCase 风格，但以下情形例外： DO / BO / DTO / VO / AO /
 PO 等。
 <br/>正例： MarcoPolo / UserDO / XmlService / TcpUdpDeal / TaPromotion

@@ -1,6 +1,6 @@
 # 读阿里Android开发手册摘要
 --------------------------------------------------------------------------------------------------------------
-###**三、Android基本组件**
+### **三、Android基本组件**
 1. **Activity 间的数据通信，对于数据量比较大的，避免使用 Intent + Parcelable
 的方式，可以考虑 EventBus 等替代方案，以免造成 TransactionTooLargeException。**
 
@@ -93,7 +93,7 @@ Service 组件一般运行主线程，应当避免耗时操作，如果有耗时
 拦截等安全问题，同时相对全局广播本地广播的更高效。
 
 
-###**四、UI与布局**
+### **四、UI与布局**
 
 1. **布局中不得不使用 ViewGroup 多重嵌套时，不要使用 LinearLayout 嵌套，
 改用 RelativeLayout，可以有效降低嵌套数。**<br/>
@@ -131,7 +131,7 @@ ScrollView 中嵌套 List 或 RecyclerView 的做法官方明确禁止。除了�
 垂直滚动功能，也没有必要在嵌套一层 ScrollView。目前为了较好的 UI 体验，更贴
 近 Material Design 的设计，推荐使用 NestedScrollView。
 
-###**五、进程、线程与消息通信**
+### **五、进程、线程与消息通信**
 
 1. **【强制】**不要通过 Intent 在 Android 基础组件之间传递大数据（binder transaction
 缓存为 1MB），可能导致 OOM。
@@ -169,7 +169,7 @@ ScrollView 中嵌套 List 或 RecyclerView 的做法官方明确禁止。除了�
     有进程中初始化；<br/>
     4) 多进程间通过 SharedPreferences 共享数据时不稳定。
     
-###**六、文件与数据库**
+### **六、文件与数据库**
 1. **【强制】**任何时候不要硬编码文件路径，请使用 Android 文件系统 API 访问。
     说明：
     Android 应用提供内部和外部存储，分别用于存放应用自身数据以及应用产生的用
@@ -304,7 +304,7 @@ Android 的通过 SQLiteOpenHelper 获取数据库 SQLiteDatabase 实例，Helpe
     String mSelectionClause = "var = " + mUserInput;
 ```
 
-###**七、Bitmap、Drawable 与动画**
+### **七、Bitmap、Drawable 与动画**
 1. **【强制】**加载大图片或者一次性加载多张图片，应该在异步线程中进行。图片的加
 载，涉及到 IO 操作，以及 CPU 密集操作，很可能引起卡顿。
 
@@ -432,7 +432,7 @@ onAnimationEnd。
     v.startAnimation(anim);
     ```
     
-###**八、安全**
+### **八、安全**
 1. 【强制】使用 PendingIntent 时，禁止使用空 intent，同时禁止使用隐式 Intent
 <br/>说明：<br/>
 1) 使用 PendingIntent 时，使用了空 Intent,会导致恶意用户劫持修改 Intent 的内
