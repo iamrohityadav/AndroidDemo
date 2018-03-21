@@ -8,18 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
-import com.mainli.d.d2018.activity.AnimationsContainerTestActivity
-import com.mainli.d.d2018.activity.DiceActivity
-import com.mainli.d.d2018.activity.TestPostCallMethodActivity
-
-val list = arrayOf<Class<out Activity>>(
-        DiceActivity::class.java,
-        TestPostCallMethodActivity::class.java,
-        AnimationsContainerTestActivity::class.java);
+import com.mainli.d.d2018.utils.ClassUtils
 
 class MainActivity : ListActivity(), View.OnClickListener {
+    lateinit var list: List<Class<out Activity>>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        list = ClassUtils.getActivitiesClass(this, packageName, listOf(MainActivity::class.java))
         listAdapter = object : BaseAdapter() {
             override fun getItemId(position: Int): Long {
                 return position.toLong();
