@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ClassUtils {
-        private final static String TAG = "ClassUtils";  
-        private ClassUtils(){}  
+public final class ManifestUtils {
+        private final static String TAG = "ManifestUtils";
+        private ManifestUtils(){}
           
         /** 
-         * 返回AndroidManifest.xml中注册的所有Activity的class 
-         * @param context                环境 
-         * @param packageName  <span style="white-space:pre;">      </span>包名 
-         * @param excludeList        排除class列表 
+         * 返回AndroidManifest.xml中注册的Activity的class
+         * @param context                环境
+         * @param packageName           包名
+         * @param excludeList           排除class列表
          * @return 
          */  
         public final static List<Class<? extends Activity>> getActivitiesClass(Context context, String packageName, List<Class> excludeList){
@@ -57,6 +57,5 @@ public final class ClassUtils {
                         e.printStackTrace();  
                 }
                 return returnClassList;
-        }  
-  
-}  
+        }
+}

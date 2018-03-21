@@ -3,11 +3,11 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name=".MyApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -17,10 +17,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TestActivity"/>
-        <activity android:name=".activity.DiceActivity"/>
-        <activity android:name=".activity.TestPostCallMethodActivity"/>
-        <activity android:name=".activity.AnimationsContainerTestActivity"/>
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/test_activity"/>
+        <activity
+            android:name=".activity.DiceActivity"
+            android:label="@string/dice_activity"/>
+        <activity
+            android:name=".activity.TestPostCallMethodActivity"
+            android:label="@string/test_post_call_method_activity"/>
+        <activity
+            android:name=".activity.AnimationsContainerTestActivity"
+            android:label="@string/animations_container_test_activity"/>
     </application>
 
 </manifest>

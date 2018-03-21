@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">D2018</string>
+    <string name="test_activity">测试</string>
+    <string name="dice_activity">骰子DrawableDice</string>
+    <string name="test_post_call_method_activity">onPostCreate和onPostResume生命周期方法测试</string>
+    <string name="animations_container_test_activity">帧动画优化内存</string>
 </resources>
