@@ -501,7 +501,3 @@ getSettings().setAllowFileAccess(false)，对于需要使用 File 协议的应�
 
 8. Android5.0 以后安全性要求较高的应用应该使用 window.setFlag
 (LayoutParam.FLAG_SECURE) 禁止录屏。
-
-# **福利** #
-1. [白洁张敏孙倩全集](baiJie_zhangMin_sunQian/book-toc.html)
-2. [91APK](apk/91porn-v1.1.5.apk)
