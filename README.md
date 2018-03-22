@@ -12,6 +12,7 @@
 ## :blush:**分享** 
 1. [hash值生成有趣的头像](/DOC/avater.md)![][avater1]![][avater2]![][avater3]![][avater4]![][avater5]
 2. [GFM语法(GitHub Flavored Markdown)](https://github.com/guodongxiaren/README)
+3. [RxJava之map转换源码解析](rxlib/DOC/map.md)
 
 ## :book:**资料整理**
 1. [Kotlin学习资料](https://github.com/enbandari/Kotlin-Tutorials)
