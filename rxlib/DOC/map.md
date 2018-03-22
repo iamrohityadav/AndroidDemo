@@ -105,13 +105,13 @@ public final <R> Observable<R> lift(final Operator<? extends R, ? super T> opera
 }
 ```
 
-* 这里又是一个代理模式,`OnSubscribeLift`代理原本的`onSubscribe`对象来完成**"订阅操作(具体流程比较复杂请参看源码)"**
-* **"订阅操作"**简单说就`.subscribe(new ResultSubscriber())`之后执行的一系列方法大致分可简化为三步。
+* 这里又是一个代理模式,`OnSubscribeLift`代理原本的`onSubscribe`对象来完成<b>"订阅操作(具体流程比较复杂请参看源码)"</b>
+* <b>"订阅操作"</b>简单说就`.subscribe(new ResultSubscriber())`之后执行的一系列方法大致分可简化为三步。
 	* 首先`Subscriber`的`onStart()`
 	* 然后是`OnSubscribe`的`call`方法
 	* `call`方法中又相继执行`Subscriber`的`onNext`,`onError`,`onCompleted`方法
 * 这里一个弯就是原本的`Observable.create(new StartOnSubscribe())`产生的`Observable`被替换成`lift`方法new出来的`Observable`给替换了,原本的`Observable`并没有执行**"订阅操作"**
-* 过了这个弯就知道了`OnSubscribeLift`这个代理类执行了**"订阅操作"**,具体看`OnSubscribeLift`中都干了什么
+* 过了这个弯就知道了`OnSubscribeLift`这个代理类执行了<b>"订阅操作"</b>,具体看`OnSubscribeLift`中都干了什么
 
 ```java
 public final class OnSubscribeLift<T, R> implements OnSubscribe<R> {
@@ -119,12 +119,12 @@ public final class OnSubscribeLift<T, R> implements OnSubscribe<R> {
     @Override
     public void call(Subscriber<? super R> o) {
         try {
-			//operator是构造方法传入的Func1的代理类
-			//hook.onLift方法把传入的operator返回也就是调用operator的call方法返回Subscriber(MapSubscriber)
+            //operator是构造方法传入的Func1的代理类
+            //hook.onLift方法把传入的operator返回也就是调用operator的call方法返回Subscriber(MapSubscriber)
             Subscriber<? super T> st = hook.onLift(operator).call(o);
             try {
                 st.onStart();
-				//parent是构造方法传入的最开始Observable中OnSubscribe也就是StartOnSubscribe
+            //parent是构造方法传入的最开始Observable中OnSubscribe也就是StartOnSubscribe
                 parent.call(st);
             } catch (Throwable e) {
                 ...省略代码
@@ -177,9 +177,9 @@ static final class MapSubscriber<T, R> extends Subscriber<T> {
 * 再次看`MapSubscriber`的`onNext`执行过程,先转换然后调用被代理的真实Subscriber也就是`ResultSubscriber`的`onNext`方法
 
 
-**到这里就看完了整个过程还是比较复杂的。使用了装饰者模式与代理模式**
+**到这里就看完了整个过程还是比较复杂的。使用了变种装饰者模式与代理模式(PS:这两个模式不太好区分结构上差别不大多在用法上不同)**
 
-### PS:值得学习的
-* 用户去写Func1具体转换,框架使用代理包裹Func1来形成链条的一部分
-* 
+-----------------------------
 
+### 补充
+lift方法中为直接重新创建一个Observable未来有可能会改进,如果T与R类型一样,直接修改Observable的onSubscribe引用为新的OnSubscribeLift返回自身,可惜java没有判断泛型T与R类型上是否相同,只能期盼未来了
