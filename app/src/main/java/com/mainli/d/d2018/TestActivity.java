@@ -3,10 +3,6 @@ package com.mainli.d.d2018;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -48,9 +44,6 @@ public class TestActivity extends AppCompatActivity {
                 System.out.println(integer);
             }
         });
-        RequestOptions requestOptions = new RequestOptions();
-        ImageView imageView = new ImageView(this);
-        Glide.with(this).clear(imageView);
-        Glide.with(this).load("").apply(requestOptions).into(imageView);
+
     }
 }
