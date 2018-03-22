@@ -17,7 +17,6 @@ package rx.internal.util.unsafe;
 
 import java.lang.reflect.Field;
 
-import sun.misc.Unsafe;
 
 /**
  * All use of this class MUST first check that UnsafeAccess.isUnsafeAvailable() == true
@@ -36,21 +35,21 @@ public final class UnsafeAccess {
     private static final boolean DISABLED_BY_USER = System.getProperty("rx.unsafe-disable") != null;
 
     static {
-        Unsafe u = null;
-        try {
-            /*
-             * This mechanism for getting UNSAFE originally from:
-             * 
-             * Original License: https://github.com/JCTools/JCTools/blob/master/LICENSE
-             * Original location: https://github.com/JCTools/JCTools/blob/master/jctools-core/src/main/java/org/jctools/util/UnsafeAccess.java
-             */
-            Field field = Unsafe.class.getDeclaredField("theUnsafe");
-            field.setAccessible(true);
-            u = (Unsafe) field.get(null);
-        } catch (Throwable e) {
-            // do nothing, hasUnsafe() will return false
-        }
-        UNSAFE = u;
+//        Unsafe u = null;
+//        try {
+//            /*
+//             * This mechanism for getting UNSAFE originally from:
+//             *
+//             * Original License: https://github.com/JCTools/JCTools/blob/master/LICENSE
+//             * Original location: https://github.com/JCTools/JCTools/blob/master/jctools-core/src/main/java/org/jctools/util/UnsafeAccess.java
+//             */
+//            Field field = Unsafe.class.getDeclaredField("theUnsafe");
+//            field.setAccessible(true);
+//            u = (Unsafe) field.get(null);
+//        } catch (Throwable e) {
+//            // do nothing, hasUnsafe() will return false
+//        }
+        UNSAFE = null;
     }
 
     public static boolean isUnsafeAvailable() {
@@ -65,8 +64,9 @@ public final class UnsafeAccess {
         for (;;) {
             int current = UNSAFE.getIntVolatile(obj, offset);
             int next = current + 1;
-            if (UNSAFE.compareAndSwapInt(obj, offset, current, next))
+            if (UNSAFE.compareAndSwapInt(obj, offset, current, next)) {
                 return current;
+            }
         }
     }
 
