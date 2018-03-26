@@ -2,16 +2,15 @@ package com.mainli.d.processor;
 
 import com.google.auto.service.AutoService;
 import com.mainli.d.annotations.BindView;
+import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeSpec;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Set;
 
@@ -23,10 +22,12 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
+import javax.lang.model.element.VariableElement;
 
 @AutoService(Processor.class)
 public class ClassProcessor extends AbstractProcessor {
@@ -40,7 +41,7 @@ public class ClassProcessor extends AbstractProcessor {
         super.init(processingEnv);
 
     }
-
+    String packName = null;
     /**
      * 处理方法注解方法
      *
@@ -50,22 +51,41 @@ public class ClassProcessor extends AbstractProcessor {
      */
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+
         Messager messager = processingEnv.getMessager();
         for (Element element : roundEnv.getElementsAnnotatedWith(BindView.class)) {
             if (element.getKind() == ElementKind.FIELD) {
+                //获取父类元素
                 Element enclosingElement = element.getEnclosingElement();
+                PackageElement packageOf = processingEnv.getElementUtils().getPackageOf(enclosingElement);
+                if (packName == null) {
+                    packName = packageOf.getQualifiedName().toString();
+                }
+                print("字段所在类-包名:" + packageOf.getQualifiedName());
+                print("字段所在类-类名:" + enclosingElement.getSimpleName());
+                //获取自己注解元素
                 BindView annotation = element.getAnnotation(BindView.class);
                 int id = annotation.value();
-
-                Element enclosingElement1 = element.getEnclosingElement();
-                PackageElement packageOf = processingEnv.getElementUtils().getPackageOf(enclosingElement);
-                Name qualifiedName = packageOf.getQualifiedName();
-                print("包名:" + qualifiedName);
+                print("注解-value:" + id);
+                print("被注解对象名称:" + element.toString());
             }
         }
         if (roundEnv.processingOver()) {
+            if (packName != null) {
+                JavaFile javaFile = JavaFile.builder(packName, TypeSpec.classBuilder("Log").addModifiers(Modifier.PUBLIC,Modifier.FINAL)
+                        .addField(FieldSpec.builder(String.class,"log")
+                                .addModifiers(Modifier.PUBLIC,Modifier.FINAL,Modifier.STATIC)
+                                .initializer("$S",mLog.toString()).build())
+                        .build()).build();
+                try {
+                    javaFile.writeTo(processingEnv.getFiler());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                writeLog(javaFile.toString());
+            }
 
-            writeLog();
+
         }
         return true;
     }
@@ -96,12 +116,12 @@ public class ClassProcessor extends AbstractProcessor {
      * @param msg
      */
     public void print(String msg) {
-        mLog.append(msg).append("\n\r");
+        mLog.append(msg).append("\n\n\r");
     }
 
     final String LOG_PATH = "D:\\processor-log.txt";
 
-    public void writeLog() {
+    public void writeLog(String str) {
         FileOutputStream fileOutputStream = null;
         FileInputStream fileInputStream = null;
         File file = new File(LOG_PATH);
@@ -117,7 +137,8 @@ public class ClassProcessor extends AbstractProcessor {
                 fileOutputStream.write(buffer, 0, len);
             }
             fileOutputStream.write("------------------------\n\r".getBytes());
-            fileOutputStream.write(mLog.toString().getBytes());
+            fileOutputStream.write(str.toString().getBytes());
+            fileOutputStream.write("------------------------\n\r".getBytes());
             fileOutputStream.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

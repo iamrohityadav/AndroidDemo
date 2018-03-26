@@ -29,6 +29,9 @@
         <activity
             android:name=".activity.AnimationsContainerTestActivity"
             android:label="@string/animations_container_test_activity"/>
+        <activity
+            android:name=".activity.TestAPTActivity"
+            android:label="编译时注解"/>
     </application>
 
 </manifest>

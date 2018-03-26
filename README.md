@@ -7,6 +7,7 @@
 |1|骰子DrawableDice|DiceActivity|微信骰子效果
 |2|onPostCreate & onPostResume|TestPostCallMethodActivity|生命周期方法调用测试
 |3|帧动画优化内存|AnimationsContainerTestActivity|阿里文档中看到的[原作者](https://github.com/VDshixiaoming/AnimationTest "")
+|4|编译时注解|TestAPTActivity|测试APT
 
 ---------------------------------------------
 ## :blush:**分享** 

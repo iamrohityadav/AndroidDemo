@@ -17,8 +17,6 @@ import rx.functions.Func1;
 
 public class TestActivity extends AppCompatActivity {
 
-    @BindView(R.id.bottom)
-    TextView tx;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
