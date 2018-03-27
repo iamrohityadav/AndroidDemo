@@ -38,7 +38,7 @@
 [DiceActivity]:app/src/main/java/com/mainli/d/d2018/activity/DiceActivity.kt
 [TestPostCallMethodActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestPostCallMethodActivity.kt
 [AnimationsContainerTestActivity]:app/src/main/java/com/mainli/d/d2018/activity/AnimationsContainerTestActivity.java
-[TestAPTActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestPostCallMethodActivity.kt
+[TestAPTActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestAPTActivity.java
 
 
 
