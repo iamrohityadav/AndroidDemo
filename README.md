@@ -6,7 +6,7 @@
 |0|Test|[TestActivity][TestActivity]|预留测试
 |1|骰子DrawableDice|[DiceActivity]|微信骰子效果
 |2|onPostCreate & onPostResume|[TestPostCallMethodActivity][TestPostCallMethodActivity]|生命周期方法调用测试
-|3|帧动画优化内存|[AnimationsContainerTestActivity][AnimationsContainerTestActivity]|阿里文档中看到的[原作者][Animations]
+|3|帧动画优化内存|[AnimationsContainerTestActivity][AnimationsContainerTestActivity]|阿里文档中看到的[原作者][animations]
 |4|APT-Demo|[TestAPTActivity][TestAPTActivity]|使用编译时注解自动生成编译时输出的Log信息
 
 ---------------------------------------------
@@ -54,5 +54,4 @@
 [avater3]:http://www.gravatar.com/avatar/88593401?s=30&d=wavatar
 [avater4]:http://www.gravatar.com/avatar/88593401?s=30&d=retro
 [avater5]:http://www.gravatar.com/avatar/88593401?s=30&d=robohash
-
-[Animations](https://github.com/VDshixiaoming/AnimationTest "")
+[animations]:https://github.com/VDshixiaoming/AnimationTest
