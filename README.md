@@ -3,14 +3,14 @@
 
 |序号|名称|Demo相关Activity|备注|
 |:-:|:-:|:-:|:-:|
-|0|Test|TestActivity|预留测试
-|1|骰子DrawableDice|DiceActivity|微信骰子效果
-|2|onPostCreate & onPostResume|TestPostCallMethodActivity|生命周期方法调用测试
-|3|帧动画优化内存|AnimationsContainerTestActivity|阿里文档中看到的[原作者](https://github.com/VDshixiaoming/AnimationTest "")
-|4|编译时注解|TestAPTActivity|测试APT
+|0|Test|[TestActivity][TestActivity]|预留测试
+|1|骰子DrawableDice|[DiceActivity]|微信骰子效果
+|2|onPostCreate & onPostResume|[TestPostCallMethodActivity][TestPostCallMethodActivity]|生命周期方法调用测试
+|3|帧动画优化内存|[AnimationsContainerTestActivity][AnimationsContainerTestActivity]|阿里文档中看到的[原作者][Animations]
+|4|APT-Demo|[TestAPTActivity][TestAPTActivity]|使用编译时注解自动生成编译时输出的Log信息
 
 ---------------------------------------------
-## :blush:**分享** 
+## :blush:**分享**
 1. [hash值生成有趣的头像](/DOC/avater.md)![][avater1]![][avater2]![][avater3]![][avater4]![][avater5]
 2. [GFM语法(GitHub Flavored Markdown)](https://github.com/guodongxiaren/README)
 3. [RxJava之map转换源码解析](rxlib/DOC/map.md)
@@ -34,6 +34,17 @@
 
 
 
+[TestActivity]:app/src/main/java/com/mainli/d/d2018/TestActivity.java
+[DiceActivity]:app/src/main/java/com/mainli/d/d2018/activity/DiceActivity.kt
+[TestPostCallMethodActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestPostCallMethodActivity.kt
+[AnimationsContainerTestActivity]:app/src/main/java/com/mainli/d/d2018/activity/AnimationsContainerTestActivity.java
+[TestAPTActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestPostCallMethodActivity.kt
+
+
+
+
+
+
 
 
 
@@ -43,3 +54,5 @@
 [avater3]:http://www.gravatar.com/avatar/88593401?s=30&d=wavatar
 [avater4]:http://www.gravatar.com/avatar/88593401?s=30&d=retro
 [avater5]:http://www.gravatar.com/avatar/88593401?s=30&d=robohash
+
+[Animations](https://github.com/VDshixiaoming/AnimationTest "")

@@ -39,9 +39,10 @@ public class ClassProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-
     }
-    String packName = null;
+
+    String packName = "com.mainli.processor";
+
     /**
      * 处理方法注解方法
      *
@@ -58,25 +59,26 @@ public class ClassProcessor extends AbstractProcessor {
                 //获取父类元素
                 Element enclosingElement = element.getEnclosingElement();
                 PackageElement packageOf = processingEnv.getElementUtils().getPackageOf(enclosingElement);
-                if (packName == null) {
-                    packName = packageOf.getQualifiedName().toString();
-                }
                 print("字段所在类-包名:" + packageOf.getQualifiedName());
                 print("字段所在类-类名:" + enclosingElement.getSimpleName());
                 //获取自己注解元素
                 BindView annotation = element.getAnnotation(BindView.class);
                 int id = annotation.value();
                 print("注解-value:" + id);
-                print("被注解对象名称:" + element.toString());
+                print(String.format("被注解对象名称:$S\n--------------------------------------------", element.toString()));
             }
         }
         if (roundEnv.processingOver()) {
             if (packName != null) {
-                JavaFile javaFile = JavaFile.builder(packName, TypeSpec.classBuilder("Log").addModifiers(Modifier.PUBLIC,Modifier.FINAL)
-                        .addField(FieldSpec.builder(String.class,"log")
-                                .addModifiers(Modifier.PUBLIC,Modifier.FINAL,Modifier.STATIC)
-                                .initializer("$S",mLog.toString()).build())
-                        .build()).build();
+                JavaFile javaFile = JavaFile.builder(packName,
+                        TypeSpec.classBuilder("Log")
+                                .addJavadoc("生成$SLog类doc,Log类用于记录process的日志\n",packName)
+                                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                                .addField(
+                                        FieldSpec.builder(String.class, "log")
+                                                .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
+                                                .initializer("$S", mLog.toString()).build())
+                                .build()).build();
                 try {
                     javaFile.writeTo(processingEnv.getFiler());
                 } catch (IOException e) {
@@ -93,7 +95,7 @@ public class ClassProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         String canonicalName = BindView.class.getCanonicalName();
-        print("要解析BindView的getCanonicalName:" + canonicalName);
+        print(String.format("要解析BindView的getCanonicalName:$s\n--------------------------------------------", canonicalName));
         return Collections.singleton(canonicalName);
     }
 
