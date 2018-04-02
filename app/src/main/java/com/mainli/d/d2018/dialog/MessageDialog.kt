@@ -11,13 +11,12 @@ import com.mainli.d.d2018.R
 /**
  * Created by mobimagic on 2018/3/2.
  */
-class MessageDialog(val cont: Context, val message: String) : Dialog(cont, R.style.AppDialog), DialogInterface.OnDismissListener, DialogInterface.OnCancelListener {
+class MessageDialog(val cont: Context, val message: String) : Dialog(cont, R.style.AppDialog),
+        DialogInterface.OnDismissListener, DialogInterface.OnCancelListener {
     override fun onDismiss(dialog: DialogInterface?) {
-//        context.startActivity(Intent(context, DiceActivity::class.java))
     }
 
     override fun onCancel(dialog: DialogInterface?) {
-//        context.startActivity(Intent(context, DiceActivity::class.java))
         if (cont is Activity) {
             cont.finish()
         }

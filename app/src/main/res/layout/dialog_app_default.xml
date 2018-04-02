@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    android:id="@+id/dialog_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FAFAFA"
+    android:minWidth="200dp"
+    android:orientation="vertical">
+
+    <ViewStub
+        android:id="@+id/dialog_title_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/dialog_title_root"
+        android:layout="@layout/dialog_app_default_title"/>
+
+    <ViewStub
+        android:id="@+id/dialog_content_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/dialog_content_root"
+        android:layout="@layout/dialog_app_default_content"/>
+
+    <ViewStub
+        android:id="@+id/dialog_bottom_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/dialog_btn_root"
+        android:layout="@layout/dialog_app_default_btn"/>
+
+</android.support.v7.widget.LinearLayoutCompat>

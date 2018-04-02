@@ -5,13 +5,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion COMPILE_SDK_VERSION as int
     defaultConfig {
-        applicationId "com.mainli.d.d2018"
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        applicationId PACKAGE_NAME
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -35,7 +35,8 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation "com.android.support:appcompat-v7:$LIB_SUPPORT_VISION"
+    implementation "com.android.support:recyclerview-v7:$LIB_SUPPORT_VISION"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //----------第三方库----------------------------------------------------------------------------------------------------------
     //基于Rx1.6.1 RxAndroid1.2.1合成

@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import com.mainli.d.d2018.dialog.MessageDialog
+import com.mainli.d.d2018.R
+import com.mainli.d.d2018.dialog.AppDialogFragment
 
 /**
  * Created by mobimagic on 2018/3/2.
@@ -20,7 +21,12 @@ class TestPostCallMethodActivity : AppCompatActivity() {
         view.setBackgroundColor(0xffc7edcc.toInt())
         setContentView(view)
         Log.e(TAG, "onCreate: ");
-        MessageDialog(this, "看一看").show()
+        AppDialogFragment.Build(this).contentText(TAG)
+                .icon(R.mipmap.ic_launcher)
+                .addDefaultButton("ok") { finish() }
+                .addDefaultButton("cancel")
+                .activitySafetyShow(TAG)
+//        MessageDialog(this,TAG).show()
     }
 
     override fun onResume() {

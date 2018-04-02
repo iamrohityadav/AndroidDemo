@@ -41,7 +41,7 @@ public class ClassProcessor extends AbstractProcessor {
         super.init(processingEnv);
     }
 
-    String packName = "com.mainli.processor";
+    String PACK_NAME = "com.mainli.processor";
 
     /**
      * 处理方法注解方法
@@ -65,14 +65,13 @@ public class ClassProcessor extends AbstractProcessor {
                 BindView annotation = element.getAnnotation(BindView.class);
                 int id = annotation.value();
                 print("注解-value:" + id);
-                print(String.format("被注解对象名称:$S\n--------------------------------------------", element.toString()));
+                print(String.format("被注解对象名称:%s\n----------------------------------------------------------------------------", element.toString()));
             }
         }
         if (roundEnv.processingOver()) {
-            if (packName != null) {
-                JavaFile javaFile = JavaFile.builder(packName,
+                JavaFile javaFile = JavaFile.builder(PACK_NAME,
                         TypeSpec.classBuilder("Log")
-                                .addJavadoc("生成$SLog类doc,Log类用于记录process的日志\n",packName)
+                                .addJavadoc("生成$SLog类doc,Log类用于记录process的日志\n",PACK_NAME)
                                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                                 .addField(
                                         FieldSpec.builder(String.class, "log")
@@ -84,18 +83,16 @@ public class ClassProcessor extends AbstractProcessor {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                writeLog(javaFile.toString());
+                writeLog(javaFile.toString());
             }
 
-
-        }
         return true;
     }
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         String canonicalName = BindView.class.getCanonicalName();
-        print(String.format("要解析BindView的getCanonicalName:$s\n--------------------------------------------", canonicalName));
+        print(String.format("生成Log类:%s.Log\n使用注解:%s\n----------------------------------------------------------------------------", PACK_NAME,canonicalName));
         return Collections.singleton(canonicalName);
     }
 

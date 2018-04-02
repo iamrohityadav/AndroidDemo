@@ -32,6 +32,9 @@
         <activity
             android:name=".activity.TestAPTActivity"
             android:label="编译时注解"/>
+        <activity
+            android:name=".activity.RichMediaActivity"
+            android:label="富媒体"/>
     </application>
 
 </manifest>

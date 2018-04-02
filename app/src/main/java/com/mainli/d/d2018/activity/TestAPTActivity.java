@@ -17,6 +17,8 @@ import com.mainli.d.d2018.R;
 public class TestAPTActivity extends AppCompatActivity {
     @BindView(R.id.bottom)
     TextView tx;
+    @BindView(88888)
+    TextView helloWorld;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
