@@ -8,6 +8,7 @@
 |2|onPostCreate & onPostResume|[TestPostCallMethodActivity][TestPostCallMethodActivity]|生命周期方法调用测试
 |3|帧动画优化内存|[AnimationsContainerTestActivity][AnimationsContainerTestActivity]|阿里文档中看到的[原作者][animations]
 |4|APT-Demo|[TestAPTActivity][TestAPTActivity]|使用编译时注解自动生成编译时输出的Log信息
+|5|验证码控件|[NumberCaptchaActivity][NumberCaptchaActivity]|自定义EditText实现验证码-扩展![](https://i.imgur.com/YOOqJPS.png)
 
 ---------------------------------------------
 ## :blush:**分享**
@@ -39,6 +40,7 @@
 [TestPostCallMethodActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestPostCallMethodActivity.kt
 [AnimationsContainerTestActivity]:app/src/main/java/com/mainli/d/d2018/activity/AnimationsContainerTestActivity.java
 [TestAPTActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestAPTActivity.java
+[NumberCaptchaActivity]:app/src/main/java/com/mainli/d/d2018/activity/NumberCaptchaActivity.kt
 
 
 

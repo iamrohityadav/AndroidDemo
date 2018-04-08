@@ -35,6 +35,10 @@
         <activity
             android:name=".activity.RichMediaActivity"
             android:label="富媒体"/>
+        <activity
+            android:name=".activity.NumberCaptchaActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:label="验证码控件"/>
     </application>
 
 </manifest>
