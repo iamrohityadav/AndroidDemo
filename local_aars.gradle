@@ -1,0 +1,53 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+
+def output = 'build/libs'
+def outputJarName = getLibraryName()
+
+publishing {
+    repositories {
+        maven {
+            url '../aars/'
+        }
+    }
+
+    publications {
+        mavenRelease(MavenPublication) {
+            def type = 'release'
+            def jarFile = file(output + "/" + outputJarName + ".jar")
+            if (jarFile.exists()) {
+                groupId GROUP
+                artifactId outputJarName
+                version version
+                artifact source: jarFile, classifier: type, extension: "jar"
+            } else {
+                println "$outputJarName $type aar is not exists"
+            }
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.implementation.allDependencies.each { dependency ->
+                    handleCompileDependencies(dependency, dependenciesNode)
+                }
+                configurations.compile.allDependencies.each { dependency ->
+                    handleCompileDependencies(dependency, dependenciesNode)
+                }
+                configurations.api.allDependencies.each { dependency ->
+                    handleCompileDependencies(dependency, dependenciesNode)
+                }
+            }
+        }
+    }
+}
+
+def handleCompileDependencies(dependencies, dependencyNodes) {
+    if (null != dependencies.group) {
+        def dependencyNode = dependencyNodes.appendNode('dependency')
+        def groupId = dependencies.group
+        def artifactId = dependencies.name
+        def version = dependencies.version
+        dependencyNode.appendNode('groupId', groupId)
+        dependencyNode.appendNode('artifactId', artifactId)
+        dependencyNode.appendNode('version', version)
+    }
+}

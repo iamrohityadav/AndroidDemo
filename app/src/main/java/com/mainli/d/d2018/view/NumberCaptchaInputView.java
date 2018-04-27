@@ -21,7 +21,7 @@ import com.mainli.d.d2018.R;
 public class NumberCaptchaInputView extends AppCompatEditText {
     private int mTextNumberOccupyWidth;
     private int mTextNumberOccupyHeight;
-    private float mGapWitch,cursorLineSize;
+    private float mGapWidth,cursorLineSize;
     private OnCaptchaListener mListener;
     private CaptchaDraw mCaptchaDraw = null;
     private int mCaptchaSize = 4;
@@ -42,7 +42,7 @@ public class NumberCaptchaInputView extends AppCompatEditText {
     public NumberCaptchaInputView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberCaptcha, defStyleAttr, 0);
-        mGapWitch = a.getDimension(R.styleable.NumberCaptcha_gapWitch, dp2Px(2));
+        mGapWidth = a.getDimension(R.styleable.NumberCaptcha_gapWitch, dp2Px(2));
         cursorLineSize = a.getDimension(R.styleable.NumberCaptcha_cursorLineSize, dp2Px(2));
         mCaptchaSize = a.getInt(R.styleable.NumberCaptcha_captchaSize, 4);
         a.recycle();
@@ -94,16 +94,16 @@ public class NumberCaptchaInputView extends AppCompatEditText {
             int targetSize = mCaptchaSize * mTextNumberOccupyWidth;
             if (size >= targetSize) {
                 if (mCaptchaSize >= 1) {
-                    mGapWitch = (int) ((size - targetSize) * 1f / (mCaptchaSize - 1));
+                    mGapWidth = (int) ((size - targetSize) * 1f / (mCaptchaSize - 1));
                 } else {
-                    mGapWitch = 0;
+                    mGapWidth = 0;
                 }
             } else {
-                mGapWitch = 0;
+                mGapWidth = 0;
                 mTextNumberOccupyWidth = size / mCaptchaSize;
             }
         } else {
-            width = (int) ((mTextNumberOccupyWidth + mGapWitch) * mCaptchaSize - mGapWitch + getPaddingLeft() + getPaddingRight());
+            width = (int) ((mTextNumberOccupyWidth + mGapWidth) * mCaptchaSize - mGapWidth + getPaddingLeft() + getPaddingRight());
         }
         if (heightMode == MeasureSpec.EXACTLY) {
             height = MeasureSpec.getSize(heightMeasureSpec);
@@ -112,7 +112,7 @@ public class NumberCaptchaInputView extends AppCompatEditText {
         }
         setMeasuredDimension(width, height);
         if (mCaptchaDraw != null) {
-            mCaptchaDraw.onDrawMeasure(mTextNumberOccupyWidth, mTextNumberOccupyHeight, mGapWitch,
+            mCaptchaDraw.onDrawMeasure(mTextNumberOccupyWidth, mTextNumberOccupyHeight, mGapWidth,
                     //可绘制区域
                     getPaddingLeft(), getPaddingTop(), width - getPaddingRight(), height - getPaddingBottom(),
                     //文本居中绘制修正

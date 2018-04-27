@@ -9,6 +9,7 @@
 |3|帧动画优化内存|[AnimationsContainerTestActivity][AnimationsContainerTestActivity]|阿里文档中看到的[原作者][animations]
 |4|APT-Demo|[TestAPTActivity][TestAPTActivity]|使用编译时注解自动生成编译时输出的Log信息
 |5|验证码控件|[NumberCaptchaActivity][NumberCaptchaActivity]|自定义EditText实现验证码-扩展![](https://i.imgur.com/YOOqJPS.png)
+|5|验证码控件|[EmojiActivity][EmojiActivity]|简单实现聊天输入emoji表情![](https://i.imgur.com/LErYvTj.png)
 
 ---------------------------------------------
 ## :blush:**分享**
@@ -41,6 +42,7 @@
 [AnimationsContainerTestActivity]:app/src/main/java/com/mainli/d/d2018/activity/AnimationsContainerTestActivity.java
 [TestAPTActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestAPTActivity.java
 [NumberCaptchaActivity]:app/src/main/java/com/mainli/d/d2018/activity/NumberCaptchaActivity.kt
+[EmojiActivity]:app/src/main/java/com/mainli/d/d2018/activity/EmojiActivity.java
 
 
 

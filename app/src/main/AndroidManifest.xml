@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.mainli.d.d2018"
           xmlns:android="http://schemas.android.com/apk/res/android">
-
+<uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -39,6 +39,10 @@
             android:name=".activity.NumberCaptchaActivity"
             android:windowSoftInputMode="stateAlwaysVisible"
             android:label="验证码控件"/>
+        <activity
+            android:name=".activity.EmojiActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:label="Emoji表情"/>
     </application>
 
 </manifest>
