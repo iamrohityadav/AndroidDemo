@@ -1,6 +1,7 @@
 package com.mainli.d.d2018.dialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -19,28 +20,29 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mainli.d.d2018.BuildConfig;
 import com.mainli.d.d2018.R;
+import com.mainli.d.d2018.dialog.DefaultDialogButtonType;
 
 /**
- * Created by Mainli on 2018-3-29.
- * <p>
- * 简单的DialogFragment封装 支持自定义布局
- * <p>
+ * Created by lixiaoliang on 2018-3-29.
  * 示例用法(kotlin) - simple
  * AppDialogFragment.Build(this)
  * .icon(R.mipmap.app_icon)
  * .title("nihao")
  * .contentText("啊是打算打算")
- * .addDefaultButton(R.string.crash_cancel)
- * .addDefaultButton("OK", object : View.OnClickListener {
+ * .addButton(R.string.crash_cancel)
+ * .addButton("OK", object : View.OnClickListener {
  * override fun onClick(v: View?) {
  * ToastUtils.getInstance().showToast("hello")
  * }
@@ -58,7 +60,7 @@ import com.mainli.d.d2018.R;
  * rootView.findViewById<TextView>(R.id.tv3).setText("文本3")
  * }
  * })
- * .addDefaultButton("OK", object : View.OnClickListener {
+ * .addButton("OK", object : View.OnClickListener {
  * override fun onClick(v: View?) {
  * ToastUtils.getInstance().showToast("hello")
  * }
@@ -76,84 +78,105 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, R.style.AppDialog);
         super.onCreate(savedInstanceState);
-        setStyle(STYLE_NO_TITLE, R.style.AppDialog);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_app_default, container, true);
+        View view = null;
+        if (data.contentView != null) {
+            view = data.contentView;
+        } else if (data.contentLayout != data.INVALID_LAYOUT) {
+            view = inflater.inflate(data.contentLayout, container, true);
+        } else {
+            view = inflater.inflate(R.layout.dialog_app_default_content, container, true);
+            initDefaultTitle(view);
+            if (!TextUtils.isEmpty(data.message)) {
+                TextView title = view.findViewById(R.id.dialog_message);
+                title.setText(data.message);
+                title.setVisibility(View.VISIBLE);
+            }
+            initDefaultButton(view);
+        }
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         autoCancelable();
-
-        initTop(view);
-        initContent(view);
-        initBottom(view);
-
         if (data.operator != null) {
             data.operator.operate(this, view);
         }
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Window window = getDialog().getWindow();
+        //减少Windows.dispatchWindowAttributesChanged(attrs);调用次数
+        if (data.verticalGravity != Gravity.CENTER) {
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            attributes.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            attributes.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            window.setGravity(data.verticalGravity);
+        } else {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        if (data.dismissListener != null) {
+            data.dismissListener.onDismiss(this);
+        }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (data.dismissListener != null) {
+            data.dismissListener.onDismiss(this);
+        }
+    }
+
     private void autoCancelable() {
-        if (TextUtils.isEmpty(data.firstButtonText) && TextUtils.isEmpty(data.secondButtonText) && TextUtils.isEmpty(data.thirdButtonText)) {
+        if (data.contentView == null && data.contentLayout == data.INVALID_LAYOUT//没有添加自定义布局切为添加button时
+                && TextUtils.isEmpty(data.thirdButtonText)) {
             setCancelable(true);
         } else {
             setCancelable(data.cancelable);
         }
     }
 
-    private void initTop(View view) {
-        if (data.topLayout != data.INVALID_LAYOUT) {
-            ViewStub titleStub = view.findViewById(R.id.dialog_title_stub);
-            titleStub.setLayoutResource(data.topLayout);
-            titleStub.inflate();
-        } else {
-            ViewStub titleStub = view.findViewById(R.id.dialog_title_stub);
-            View root = titleStub.inflate();
+    private void initDefaultTitle(View view) {
+        if (!TextUtils.isEmpty(data.title) || data.icon != null) {
+            View root = view.findViewById(R.id.dialog_title_root);
+            root.setVisibility(View.VISIBLE);
             if (data.icon != null) {
                 ImageView icon = root.findViewById(R.id.dialog_icon);
                 icon.setImageDrawable(data.icon);
+                icon.setVisibility(View.VISIBLE);
             }
             if (!TextUtils.isEmpty(data.title)) {
                 TextView titleView = root.findViewById(R.id.dialog_title);
                 titleView.setText(data.title);
+                titleView.setVisibility(View.VISIBLE);
             }
-
         }
     }
 
-    private void initContent(View view) {
-        if (data.contentLayout != data.INVALID_LAYOUT) {
-            ViewStub contentStub = view.findViewById(R.id.dialog_content_stub);
-            contentStub.setLayoutResource(data.contentLayout);
-            contentStub.inflate();
-        } else if (!TextUtils.isEmpty(data.contentText)) {
-            ViewStub contentStub = view.findViewById(R.id.dialog_content_stub);
-            View root = contentStub.inflate();
-            TextView title = root.findViewById(R.id.dialog_content_root);
-            title.setText(data.contentText);
-        }
-    }
-
-    private void initBottom(View view) {
-        if (data.bottomLayout != data.INVALID_LAYOUT) {
-            ViewStub bottomStub = view.findViewById(R.id.dialog_bottom_stub);
-            bottomStub.setLayoutResource(data.contentLayout);
-            bottomStub.inflate();
-        } else {
-            ViewStub bottomStub = view.findViewById(R.id.dialog_bottom_stub);
-            View root = bottomStub.inflate();
+    private void initDefaultButton(View view) {
+        if (data.firstButtonText != null || data.secondButtonText != null || data.thirdButtonText != null) {
+            View root = view.findViewById(R.id.dialog_btn_root);
+            root.setVisibility(View.VISIBLE);
             initDefaultButton(root, R.id.dialog_first_btn, data.firstButtonText, data.firstButtonOperator);
             initDefaultButton(root, R.id.dialog_second_btn, data.secondButtonText, data.secondButtonOperator);
             initDefaultButton(root, R.id.dialog_third_btn, data.thirdButtonText, data.thirdButtonOperator);
-
         }
     }
 
@@ -207,18 +230,14 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
             mContext = context;
         }
 
-        int INVALID_LAYOUT = -99;
+        final int INVALID_LAYOUT = -99;
         //自定义布局
         @LayoutRes
-        int topLayout = INVALID_LAYOUT;
-        @LayoutRes
         int contentLayout = INVALID_LAYOUT;
-        @LayoutRes
-        int bottomLayout = INVALID_LAYOUT;
-
+        View contentView = null;
 
         CharSequence title = null;
-        CharSequence contentText = null;
+        CharSequence message = null;
         Drawable icon = null;
         CharSequence firstButtonText = null;
         CharSequence secondButtonText = null;
@@ -231,9 +250,9 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
         View.OnClickListener firstButtonOnClick;
         View.OnClickListener secondButtonOnClick;
         View.OnClickListener thirdButtonOnClick;
-
+        DialogDismissListener dismissListener;
         boolean cancelable = false;
-
+        int verticalGravity = Gravity.CENTER;
         AppDialogFragment.DialogOperator operator = null;
 
     }
@@ -272,48 +291,79 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
             return this;
         }
 
-        public AppDialogFragment.Build contentText(CharSequence contentText) {
-            data.contentText = contentText;
+        public AppDialogFragment.Build message(CharSequence message) {
+            data.message = message;
             return this;
         }
+
+        public AppDialogFragment.Build setDismissListener(DialogDismissListener dismissListener) {
+            data.dismissListener = dismissListener;
+            return this;
+        }
+
+        public AppDialogFragment.Build message(@StringRes int messageId) {
+            data.message = data.mContext.getString(messageId);
+            return this;
+        }
+
+        /**
+         * Set the gravity of the window, as per the Gravity constants.  This
+         * controls how the window manager is positioned in the overall window; it
+         * is only useful when using WRAP_CONTENT for the layout width or height.
+         * 宽度已设置为MATCH_PARENT
+         *
+         * @param verticalGravity 竖直方向 gravity.
+         * @see Gravity
+         */
+        public AppDialogFragment.Build setVerticalGravity(int verticalGravity) {
+            data.verticalGravity = verticalGravity;
+            return this;
+        }
+
         //---------------------自定义按钮区start--------------------------------------------------------------------------------------------------
 
-        public AppDialogFragment.Build addDefaultButton(@StringRes int buttonTextId) {
-            return addDefaultButton(data.mContext.getText(buttonTextId), null, null);
+        /**
+         * 最多3
+         *
+         * @param buttonTextId
+         * @return
+         */
+        public AppDialogFragment.Build addButton(@StringRes int buttonTextId) {
+            return addButton(data.mContext.getText(buttonTextId), null, null);
         }
 
 
-        public AppDialogFragment.Build addDefaultButton(@StringRes int buttonTextId, ButtonOperator operator) {
-            return addDefaultButton(data.mContext.getText(buttonTextId), null, operator);
+        public AppDialogFragment.Build addButton(@StringRes int buttonTextId, ButtonOperator operator) {
+            return addButton(data.mContext.getText(buttonTextId), null, operator);
         }
 
 
-        public AppDialogFragment.Build addDefaultButton(@StringRes int buttonTextId, View.OnClickListener listener) {
-            return addDefaultButton(data.mContext.getText(buttonTextId), listener, null);
+        public AppDialogFragment.Build addButton(@StringRes int buttonTextId, View.OnClickListener listener) {
+            return addButton(data.mContext.getText(buttonTextId), listener, null);
         }
 
-        public AppDialogFragment.Build addDefaultButton(CharSequence buttonText) {
-            return addDefaultButton(buttonText, null, null);
-        }
-
-
-        public AppDialogFragment.Build addDefaultButton(CharSequence buttonText, ButtonOperator operator) {
-            return addDefaultButton(buttonText, null, operator);
+        public AppDialogFragment.Build addButton(CharSequence buttonText) {
+            return addButton(buttonText, null, null);
         }
 
 
-        public AppDialogFragment.Build addDefaultButton(CharSequence buttonText, View.OnClickListener listener) {
-            return addDefaultButton(buttonText, listener, null);
+        public AppDialogFragment.Build addButton(CharSequence buttonText, ButtonOperator operator) {
+            return addButton(buttonText, null, operator);
         }
 
 
-        public AppDialogFragment.Build addDefaultButton(CharSequence buttonText, View.OnClickListener listener, ButtonOperator operator) {
-            if (TextUtils.isEmpty(data.firstButtonText)) {
-                return setDefaultButton(DefaultDialogButtonType.FIRST_BUTTON, buttonText, listener, operator);
+        public AppDialogFragment.Build addButton(CharSequence buttonText, View.OnClickListener listener) {
+            return addButton(buttonText, listener, null);
+        }
+
+
+        public AppDialogFragment.Build addButton(CharSequence buttonText, View.OnClickListener listener, ButtonOperator operator) {
+            if (TextUtils.isEmpty(data.thirdButtonText)) {
+                return setDefaultButton(DefaultDialogButtonType.THIRD_BUTTON, buttonText, listener, operator);
             } else if (TextUtils.isEmpty(data.secondButtonText)) {
                 return setDefaultButton(DefaultDialogButtonType.SECOND_BUTTON, buttonText, listener, operator);
-            } else if (TextUtils.isEmpty(data.thirdButtonText)) {
-                return setDefaultButton(DefaultDialogButtonType.THIRD_BUTTON, buttonText, listener, operator);
+            } else if (TextUtils.isEmpty(data.firstButtonText)) {
+                return setDefaultButton(DefaultDialogButtonType.FIRST_BUTTON, buttonText, listener, operator);
             }
             throw new RuntimeException(TAG + " - 默认按钮最多三个,要使用多个按钮请调用setBottomLayout方法自定义布局");
         }
@@ -337,7 +387,9 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
                     data.thirdButtonOperator = operator;
                     break;
                 default:
-                    Log.d(TAG, "button-type: 未知,默认按钮添加失败");
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "button-type: 未知,默认按钮添加失败");
+                    }
             }
             return this;
         }
@@ -348,16 +400,6 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
             return this;
         }
 
-        /**
-         * 自定义布局,请使用{@link DialogOperator}进行初始化操作
-         *
-         * @param titleLayout
-         * @return
-         */
-        public AppDialogFragment.Build setTopLayout(int titleLayout) {
-            data.topLayout = titleLayout;
-            return this;
-        }
 
         /**
          * 自定义布局,请使用{@link DialogOperator}进行初始化操作
@@ -370,17 +412,10 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
             return this;
         }
 
-        /**
-         * 自定义布局,请使用{@link DialogOperator}进行初始化操作
-         *
-         * @param buttonLayout
-         * @return
-         */
-        public AppDialogFragment.Build setBottomLayout(int buttonLayout) {
-            data.bottomLayout = buttonLayout;
+        public AppDialogFragment.Build setContentView(View contentView) {
+            data.contentView = contentView;
             return this;
         }
-
 
         public AppDialogFragment.Build setDialogOperator(AppDialogFragment.DialogOperator operator) {
             data.operator = operator;
@@ -421,7 +456,7 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
         public void activitySafetyShow(String tag) {
             if (data.mContext != null && data.mContext instanceof FragmentActivity) {
                 FragmentActivity activity = (FragmentActivity) data.mContext;
-                if (!((FragmentActivity) data.mContext).isFinishing()) {
+                if (!activity.isFinishing()) {
                     AppDialogFragment AppDialogFragment = create();
                     AppDialogFragment.show(activity.getSupportFragmentManager(), tag);
                 }
@@ -436,6 +471,10 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
 
     public interface ButtonOperator {
         void operate(Button button);
+    }
+
+    public interface DialogDismissListener {
+        void onDismiss(AppDialogFragment fragment);
     }
 
 

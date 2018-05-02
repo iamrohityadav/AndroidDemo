@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import com.mainli.d.d2018.R
 import com.mainli.d.d2018.dialog.AppDialogFragment
 
 /**
@@ -21,12 +20,10 @@ class TestPostCallMethodActivity : AppCompatActivity() {
         view.setBackgroundColor(0xffc7edcc.toInt())
         setContentView(view)
         Log.e(TAG, "onCreate: ");
-        AppDialogFragment.Build(this).contentText(TAG)
-                .icon(R.mipmap.ic_launcher)
-                .addDefaultButton("ok") { finish() }
-                .addDefaultButton("cancel")
+        AppDialogFragment.Build(this).message(TAG)
+                .addButton("ok") { finish() }
+                .addButton("cancel")
                 .activitySafetyShow(TAG)
-//        MessageDialog(this,TAG).show()
     }
 
     override fun onResume() {
