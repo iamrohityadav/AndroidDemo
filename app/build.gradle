@@ -40,7 +40,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$LIB_SUPPORT_VISION"
     implementation "com.android.support:recyclerview-v7:$LIB_SUPPORT_VISION"
+    implementation "com.android.support:design:$LIB_SUPPORT_VISION"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
     //----------第三方库----------------------------------------------------------------------------------------------------------
     //基于Rx1.6.1 RxAndroid1.2.1合成
     implementation project(':rxlib')

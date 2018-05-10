@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.mainli.d.d2018"
           xmlns:android="http://schemas.android.com/apk/res/android">
-<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -34,15 +35,19 @@
             android:label="编译时注解"/>
         <activity
             android:name=".activity.RichMediaActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:label="富媒体"/>
         <activity
             android:name=".activity.NumberCaptchaActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:label="验证码控件"/>
+            android:label="验证码控件"
+            android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity
             android:name=".activity.EmojiActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:label="Emoji表情"/>
+            android:label="Emoji表情"
+            android:windowSoftInputMode="stateAlwaysVisible"/>
+        <activity
+            android:name=".activity.CoordinatorLayoutActivity"
+            android:label="CoordinatorLayout自定义Behavior"/>
     </application>
 
 </manifest>
