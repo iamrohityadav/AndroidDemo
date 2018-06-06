@@ -2,21 +2,25 @@ package com.mainli.d.d2018.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.NoCopySpan;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.style.ReplacementSpan;
+import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.SparseArray;
+import android.util.TypedValue;
+import android.view.View;
 
-import java.util.ArrayList;
+import com.mainli.d.d2018.R;
+
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by lixiaoliang on 2018-5-3.
@@ -47,15 +51,16 @@ public class LinkedEditText extends AppCompatEditText {
         int start = 0;
         for (LinkeSpan linke : linkes) {
             int charCount = linke.index - start;
+            int linkeNameSize = linke.urlName.length();
             if (charCount > 0) {
                 tmp = new char[charCount];
                 text.getChars(start, linke.index, tmp, 0);
                 stringBuffer.append(tmp);
                 stringBuffer.append(linke.toString());
-                start = linke.index + 1;
+                start = linke.index + linkeNameSize;
             } else if (charCount == 0) {
                 stringBuffer.append(linke.toString());
-                start++;
+                start += linkeNameSize;
             }
         }
 
@@ -72,7 +77,7 @@ public class LinkedEditText extends AppCompatEditText {
 
 
     public void insertLinked(String name, String url) {
-        insertMDLinked(getSelectionStart(), name, url, convertMDLinked(name, url));
+        insertMDLinked(getSelectionEnd(), name, url, convertMDLinked(name, url));
     }
 
     @NonNull
@@ -89,9 +94,15 @@ public class LinkedEditText extends AppCompatEditText {
 
     private void insertMDLinked(int where, String name, String url, String mdLinked) {
         Editable text = getText();
-        LinkeSpan span = new LinkeSpan(name, url, mdLinked);
-        text.insert(where, "#");
-        text.setSpan(span, where, where + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        LinkeSpan span = new LinkeSpan(getContext(),name, url, mdLinked);
+        text.insert(where, name);
+        text.setSpan(span, where, where + name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text.setSpan(new ReplacementSelectSpan(), where, where + name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
     }
 
     private static class LinkeSpan extends ReplacementSpan implements Comparable<LinkeSpan> {
@@ -104,10 +115,27 @@ public class LinkedEditText extends AppCompatEditText {
             this.index = index;
         }
 
-        public LinkeSpan(String urlName, String url, String md) {
+        private static Drawable sDrawableLiked;
+        private static int dp16 = 0;
+        private static int dp32 = 0;
+        private static int dp8 = 0;
+        private static int dp4 = 0;
+
+        public LinkeSpan(Context context, String urlName, String url, String md) {
             this.urlName = urlName;
             this.url = url;
             this.md = md;
+            initParam(context);
+        }
+
+        private void initParam(Context context) {
+            if (sDrawableLiked == null) {
+                sDrawableLiked = ContextCompat.getDrawable(context, R.drawable.icon_linked_ff687fff);
+                dp32 = (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32F, context.getResources().getDisplayMetrics()) + 0.5F);
+                dp16 = dp32 >> 1;
+                dp8 = dp16 >> 1;
+                dp4 = dp8 >> 1;
+            }
         }
 
         @Override
@@ -117,20 +145,36 @@ public class LinkedEditText extends AppCompatEditText {
 
         @Override
         public int getSize(@NonNull Paint paint, CharSequence text, int start, int end, @Nullable Paint.FontMetricsInt fm) {
-            return (int) (paint.measureText(urlName) + 0.5f);
+            return (int) (dp32 + dp4 + paint.measureText(urlName) + 0.5F);
         }
 
         @Override
         public void draw(@NonNull Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, @NonNull Paint paint) {
+            sDrawableLiked.setBounds((int) (x + dp8), top + ((bottom - top - sDrawableLiked.getMinimumHeight()) >> 1), (int) (x + dp16 + dp8), bottom);
+            sDrawableLiked.draw(canvas);
             int color = paint.getColor();
-            paint.setColor(Color.RED);
-            canvas.drawText(urlName, x, y, paint);
+            paint.setColor(0xFF687FFF);
+            canvas.drawText(this.urlName, x + dp32, (float) y, paint);
             paint.setColor(color);
         }
 
         @Override
         public int compareTo(@NonNull LinkeSpan o) {
             return index - o.index;
+        }
+    }
+
+    private static class ReplacementSelectSpan extends URLSpan implements NoCopySpan {
+        public ReplacementSelectSpan() {
+            super("");
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+        }
+
+        @Override
+        public void onClick(View widget) {
         }
     }
 }

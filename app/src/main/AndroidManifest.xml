@@ -48,6 +48,9 @@
         <activity
             android:name=".activity.CoordinatorLayoutActivity"
             android:label="CoordinatorLayout自定义Behavior"/>
+        <activity
+            android:name=".activity.GlideActivity"
+            android:label="gggg"/>
     </application>
 
 </manifest>

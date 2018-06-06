@@ -23,7 +23,7 @@ public class RichMediaActivity extends AppCompatActivity {
         final LinkedEditText et = findViewById(R.id.et);
         final TextView tv = findViewById(R.id.tv);
         final TextView tv1 = findViewById(R.id.tv1);
-        tv1.setMovementMethod(LinkMovementMethod.getInstance());
+        MarkDownURLMatcher.attachTextViewOnTouchClickable(tv1);
         findViewById(R.id.btn_output).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,7 +33,7 @@ public class RichMediaActivity extends AppCompatActivity {
         findViewById(R.id.btn_convert_output).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv1.setText(MarkDownURLMatcher.convertTextLinks(et.toMDString()));
+                tv1.setText(MarkDownURLMatcher.convertTextLinks(et.toMDString(),false));
             }
         });
         findViewById(R.id.btn1).setOnClickListener(new View.OnClickListener() {

@@ -5,4 +5,9 @@
         <attr name="gapWitch" format="dimension"/>
         <attr name="cursorLineSize" format="dimension"/>
     </declare-styleable>
+    <!--圆角布局-->
+    <declare-styleable name="NewsRoundRectLayout">
+        <attr name="newsRatio" format="dimension" />
+        <attr name="newsBackgroundColor" format="color" />
+    </declare-styleable>
 </resources>
