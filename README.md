@@ -61,4 +61,4 @@
 [avater4]:http://www.gravatar.com/avatar/88593401?s=30&d=retro
 [avater5]:http://www.gravatar.com/avatar/88593401?s=30&d=robohash
 [animations]:https://github.com/VDshixiaoming/AnimationTest
-[RichMedia]:(DOC\richmedia\RichMedia.MD)
+[RichMedia]:(DOC/richmedia/RichMedia.MD)
