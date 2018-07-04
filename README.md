@@ -10,7 +10,7 @@
 |4|APT-Demo|[TestAPTActivity][TestAPTActivity]|使用编译时注解自动生成编译时输出的Log信息
 |5|验证码控件|[NumberCaptchaActivity][NumberCaptchaActivity]|自定义EditText实现验证码-扩展![](https://i.imgur.com/YOOqJPS.png)
 |6|Emoji输入键盘实现|[EmojiActivity][EmojiActivity]|简单实现聊天输入emoji表情![](https://i.imgur.com/LErYvTj.png)
-|7|验证码控件|[RichMediaActivity][RichMediaActivity]|链接输入以及转换为markdown上报服务端,以及markdown转换显示并支持点击![](https://i.imgur.com/ihaMNzQ.gif)
+|7|富文本编辑|[RichMediaActivity][RichMediaActivity]<br/><br/>[实现分享RichMedia][RichMedia]|链接输入以及转换为markdown上报服务端,以及markdown转换显示并支持点击![](https://i.imgur.com/ihaMNzQ.gif)
 
 ---------------------------------------------
 ## :blush:**分享**
@@ -61,3 +61,4 @@
 [avater4]:http://www.gravatar.com/avatar/88593401?s=30&d=retro
 [avater5]:http://www.gravatar.com/avatar/88593401?s=30&d=robohash
 [animations]:https://github.com/VDshixiaoming/AnimationTest
+[RichMedia]:(DOC\richmedia\RichMedia.MD)
