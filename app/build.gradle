@@ -46,6 +46,7 @@ dependencies {
     implementation project(':rxlib')
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     kapt 'com.github.bumptech.glide:compiler:4.6.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     //----------运行时注解--------------------------------------------------------------------------------------------------------
     implementation project(':annotations')
     kapt project(':processor')

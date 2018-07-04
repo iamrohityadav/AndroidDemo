@@ -19,7 +19,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -38,10 +37,10 @@ import java.util.regex.Pattern;
  */
 public class MarkDownURLMatcher {
     private final static String URL_NAME = "[\\w \\(\\)\\t#&%$@\\u4e00-\\u9fa5]*";
-    private final static String HTTP = "(https?://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
+    private final static String HTTP = "(https?|ftp|file)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?";
     private final static String MATCHER = "\\[(" + URL_NAME + ")\\]\\((" + HTTP + ")\\)";
     private final static Pattern MD_URL_MATCHER = Pattern.compile(MATCHER);
-    private final static Pattern URL_MATCHER = Pattern.compile("(https?|ftp|file)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?");
+    private final static Pattern URL_MATCHER = Pattern.compile(HTTP);
     private final static String FEEDS_TEXT_APPEND = "全文";
     private final static String APPEND_ELLIPSIS = "… ";
 

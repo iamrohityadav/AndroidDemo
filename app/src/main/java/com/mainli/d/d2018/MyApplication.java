@@ -10,13 +10,15 @@ import android.provider.Settings;
  * Created by shixiaoming on 16/12/6.
  */
 
-public class MyApplication extends Application{
+public class MyApplication extends Application {
 
     private static Context mContext;
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         super.onCreate();
         MyApplication.mContext = getApplicationContext();
+        new CrashHandler().init(this);
     }
 
     public static Context getAppContext() {
@@ -24,7 +26,6 @@ public class MyApplication extends Application{
     }
 
     public static String getAndroidId() {
-        return Settings.Secure.getString(
-                getAppContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        return Settings.Secure.getString(getAppContext().getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 }
