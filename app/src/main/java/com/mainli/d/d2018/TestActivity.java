@@ -3,10 +3,12 @@ package com.mainli.d.d2018;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.mainli.d.annotations.BindView;
+import com.mainli.log.L;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -32,7 +34,19 @@ public class TestActivity extends AppCompatActivity {
         findViewById(R.id.error).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                throw new RuntimeException("呵呵-TestActivity崩溃了");
+//                throw new RuntimeException("呵呵-TestActivity崩溃了");
+                long start = System.currentTimeMillis();
+//                for (int i = 0; i < 100000; i++) {
+//                    Log.i("LOG", "呵呵" + i);
+//                }
+//                long l = System.currentTimeMillis() - start;
+//                Log.e("------androidLog耗时: ", l + "");
+//                start = System.currentTimeMillis();
+                for (int i = 0; i < 100000; i++) {
+                    L.i("LOG", "L" + i);
+                }
+                Log.e("-----------LLOG耗时: ", (System.currentTimeMillis() - start) + "");
+
             }
         });
 //        ImageView viewById = findViewById(R.id.imageview);
@@ -40,7 +54,6 @@ public class TestActivity extends AppCompatActivity {
 //                .into(viewById);
 
     }
-
 
 
     public static class StartOnSubscribe implements Observable.OnSubscribe<Integer> {
