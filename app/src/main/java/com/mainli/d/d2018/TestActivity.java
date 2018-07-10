@@ -35,18 +35,27 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                throw new RuntimeException("呵呵-TestActivity崩溃了");
+                int count = 100000;
                 long start = System.currentTimeMillis();
-//                for (int i = 0; i < 100000; i++) {
-//                    Log.i("LOG", "呵呵" + i);
-//                }
-//                long l = System.currentTimeMillis() - start;
-//                Log.e("------androidLog耗时: ", l + "");
-//                start = System.currentTimeMillis();
-                for (int i = 0; i < 100000; i++) {
-                    L.i("LOG", "L" + i);
+                for (int i = 0; i < count; i++) {
+                    Log.i("LOG", "L" + i);
                 }
-                Log.e("-----------LLOG耗时: ", (System.currentTimeMillis() - start) + "");
-
+                long androidLogTime = System.currentTimeMillis() - start;
+                //----------------------------------------------------------
+                start = System.currentTimeMillis();
+                for (int i = 0; i < count; i++) {
+                    L.w1("LOG", "U" + i);
+                }
+                long unOptimizationTime = System.currentTimeMillis() - start;
+                //----------------------------------------------------------
+                start = System.currentTimeMillis();
+                for (int i = 0; i < count; i++) {
+                    L.w("LOG", "O" + i);
+                }
+                long optimizationTime = System.currentTimeMillis() - start;
+                Log.e("AndroidLog耗时: ", androidLogTime + "");
+                Log.e("MMAP-未优化-格式化时间耗时: ", unOptimizationTime + "");
+                Log.e("MMAP-优化-格式化耗时: ", optimizationTime + "");
             }
         });
 //        ImageView viewById = findViewById(R.id.imageview);
