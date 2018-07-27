@@ -77,6 +77,17 @@ public class NumberCaptchaInputView extends AppCompatEditText {
         mCaptchaDraw.initPaint(getPaint(), mCursorPaint);
     }
 
+    /**
+     * 单行情况下保证光标始终在最后位置,解决点击开头部分不会删除问题
+     * @param x
+     * @param y
+     * @return
+     */
+    @Override
+    public int getOffsetForPosition(float x, float y) {
+        return getText().length();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
