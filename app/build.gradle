@@ -6,7 +6,18 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+
     compileSdkVersion COMPILE_SDK_VERSION as int
+
+    signingConfigs {
+        signing {
+            keyAlias 'demo'
+            keyPassword 'demo123'
+            storeFile file('../demo.jks')
+            storePassword 'demo123'
+        }
+    }
+
     defaultConfig {
         applicationId PACKAGE_NAME
         minSdkVersion MIN_SDK_VERSION as int
@@ -19,6 +30,7 @@ android {
 //                cppFlags ""
 //            }
 //        }
+        signingConfig signingConfigs.signing
     }
 
     buildTypes {
@@ -27,11 +39,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 //    externalNativeBuild {
 //        cmake {
 //            path "CMakeLists.txt"
 //        }
 //    }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def newName
+            def timeNow = getDate()
+            if (variant.buildType.name.equals('debug')) {
+                newName = "Demo2018-VC(${VERSION_CODE})-debug-${timeNow}.apk"
+            } else {
+                newName = "Demo2018-VC(${VERSION_CODE})-${timeNow}.apk"
+            }
+            outputFileName = newName
+        }
+    }
+}
+
+def getDate() {
+    return new Date().format('(yyyy-MM-dd HH.mm.ss)')
 }
 
 dependencies {
