@@ -24,9 +24,9 @@ public class MyApplication extends Application implements CrashHandler.ErrorHand
     public void onCreate() {
         super.onCreate();
         MyApplication.mContext = getApplicationContext();
-        L.init(new File(getExternalCacheDir(), "log"), 4028, false);
+        L.init(new File(getExternalCacheDir(), "logs"), 4028, false);
         CrashHandler.init(this, this);
-        L.i("Mainli", "初始化完成");
+        L.i("Mainli", "- - - 启动应用 - - -");
     }
 
     public static Context getAppContext() {
@@ -61,6 +61,6 @@ public class MyApplication extends Application implements CrashHandler.ErrorHand
         mPrefixInfo.append(Log.getStackTraceString(t));
         mPrefixInfo .append("\n***********************************\n");
         L.e(CRASH_HANDLER_TAG, mPrefixInfo.toString());
-        return true;
+        return false;
     }
 }

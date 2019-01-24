@@ -19,7 +19,6 @@ import static android.util.Log.WARN;
 public class L {
     private static LogBuffer sLogBuffer = null;
     private static DateFileFormatter sFormatter = null;
-    private static DateFileFormatter1 sFormatter1 = null;
     private static String SUFFIX_LOG = ".log";
     private static String BUFFER_NAME = "buffer.logCacher";
 
@@ -34,7 +33,6 @@ public class L {
         String bufferPath = new File(pathFile, BUFFER_NAME).getAbsolutePath();
         sLogBuffer = new LogBuffer(bufferPath, burrferCapacity, new File(pathFile, logName).getAbsolutePath(), compress);
         sFormatter = new DateFileFormatter();
-        sFormatter1 = new DateFileFormatter1();
     }
 
     public static String getStackTraceString(Throwable tr) {
@@ -64,7 +62,7 @@ public class L {
      * @param msg
      */
     public static void w1(String tag, String msg) {
-        sLogBuffer.write(sFormatter1.format(WARN, tag, msg));
+        sLogBuffer.write(sFormatter.format(WARN, tag, msg));
     }
 
     public static void w(String tag, String msg, Throwable tr) {
