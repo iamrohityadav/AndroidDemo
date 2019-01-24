@@ -13,7 +13,7 @@
         android:orientation="vertical"
         app:dividerPadding="10dp">
 
-        <com.mainli.d.d2018.view.LinkedEditText
+        <com.mainli.view.LinkedEditText
             android:id="@+id/et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

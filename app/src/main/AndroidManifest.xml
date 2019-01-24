@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.mainli.d.d2018"
+<manifest package="com.mainli"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -35,8 +35,8 @@
             android:label="编译时注解"/>
         <activity
             android:name=".activity.RichMediaActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:label="富媒体"/>
+            android:label="富媒体"
+            android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity
             android:name=".activity.NumberCaptchaActivity"
             android:label="验证码控件"

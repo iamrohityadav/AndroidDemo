@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mainli.d.d2018.view.NumberCaptchaInputView
+    <com.mainli.view.NumberCaptchaInputView
         android:id="@+id/number_captcha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:gapWitch="16dp"
         />
 
-    <com.mainli.d.d2018.view.NumberCaptchaInputView
+    <com.mainli.view.NumberCaptchaInputView
         android:id="@+id/number_captcha2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         app:gapWitch="16dp"
         />
 
-    <com.mainli.d.d2018.view.NumberCaptchaInputView
+    <com.mainli.view.NumberCaptchaInputView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -39,7 +39,7 @@
         app:captchaSize="16"
         />
     <!--只有宽度为wrap_content屏幕大小足够时生效app:gapWitch="16dp"-->
-    <com.mainli.d.d2018.view.NumberCaptchaInputView
+    <com.mainli.view.NumberCaptchaInputView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -50,7 +50,7 @@
         app:gapWitch="16dp"
         />
     <!--加上padding 否则绘制矩形边框边界显示不全-->
-    <com.mainli.d.d2018.view.NumberCaptchaInputView
+    <com.mainli.view.NumberCaptchaInputView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
