@@ -14,8 +14,9 @@ class MainActivity : ListActivity(), View.OnClickListener {
     lateinit var list: ArrayList<ManifestUtils.ActivityItem>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        list = ManifestUtils.getActivitiesClass(this, packageName, listOf(MainActivity::class.java))
+        list = ManifestUtils.getActivitiesClass(this, packageName, listOf(MainActivity::class.java, TestActivity::class.java))
         adjustPosition()//调整位置
+        list.add(0, ManifestUtils.ActivityItem("测试", TestActivity::class.java))
         listAdapter = object : BaseAdapter() {
             override fun getItemId(position: Int): Long {
                 return position.toLong();
@@ -42,9 +43,7 @@ class MainActivity : ListActivity(), View.OnClickListener {
     }
 
     private fun adjustPosition() {
-        val testActivity = list.removeAt(0)
         Collections.reverse(list)
-        list.add(0, testActivity)
     }
 
     override fun onClick(v: View) {

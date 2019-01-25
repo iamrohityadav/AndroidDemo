@@ -57,6 +57,9 @@
         <activity
             android:name=".activity.RoundActivity"
             android:label="子View统一圆角处理FramLayout"/>
+        <activity
+            android:name=".activity.TestViewActivity"
+            android:label="测试自定义View"/>
     </application>
 
 </manifest>

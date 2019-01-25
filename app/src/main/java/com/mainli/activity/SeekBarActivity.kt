@@ -16,8 +16,8 @@ abstract class SeekBarActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeLis
         val linearLayout2 = LinearLayout(this)
         linearLayout2.orientation = LinearLayout.VERTICAL
         attachView(linearLayout2)
-        val layoutParams = LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,0,1f);
-        linearLayout.addView(linearLayout2,layoutParams)
+        val layoutParams = LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 0, 1f);
+        linearLayout.addView(linearLayout2, layoutParams)
         val seekBar = addSeekBar(linearLayout)
         setContentView(linearLayout)
         onProgressChanged(seekBar, seekBar.progress, false)
@@ -34,14 +34,14 @@ abstract class SeekBarActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeLis
         layoutParams.topMargin = dp
         layoutParams.rightMargin = dp
         layoutParams.bottomMargin = dp
-        linearLayout.addView(seekBar,layoutParams)
+        linearLayout.addView(seekBar, layoutParams)
         return seekBar
     }
 
     abstract fun attachView(linearlayout: LinearLayout)
 
-    fun max(): Int = 100
-    fun progress(): Int = 50
+    open fun max(): Int = 100
+    open fun progress(): Int = max().shr(1)
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
     }
