@@ -11,6 +11,9 @@ import android.view.View;
 
 import com.mainli.utils.SizeUtil;
 
+/**
+ * 饼图
+ */
 public class PieView extends View {
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private RectF mRectF = new RectF();

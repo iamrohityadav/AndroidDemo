@@ -17,6 +17,9 @@ import com.mainli.R;
 import com.mainli.utils.BitmapUtils;
 import com.mainli.utils.SizeUtil;
 
+/**
+ * Camera实现3D变换
+ */
 public class CamearDemoView extends View {
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private RectF mRectF = new RectF();
@@ -33,10 +36,9 @@ public class CamearDemoView extends View {
 
     {
         mPaint.setStrokeWidth(SizeUtil.dp2Px(5));
-        mCamera.rotateX(50);
+        mCamera.rotateX(-50);
         mBitmap = BitmapUtils.getTargetWidthBitmap(getResources(), R.mipmap.logo_square, 500);
         SizeUtil.fixCameraZ(mCamera);
-        Log.d("Mainli", mBitmap.getWidth() + " - " + mBitmap.getWidth());
     }
 
     @Override
@@ -55,22 +57,24 @@ public class CamearDemoView extends View {
         canvas.save();
         canvas.translate(left + halfImageWidth, top + halfImageHeight);
         canvas.rotate(-mAngle);
-        canvas.clipRect( -mBitmap.getWidth(), -mBitmap.getHeight(),  mBitmap.getWidth(), 0);
+        mCamera.applyToCanvas(canvas);
+        canvas.clipRect(-mBitmap.getWidth(), -mBitmap.getHeight(), mBitmap.getWidth(), 0);//扩大裁切面积 适应旋转后大小
         canvas.rotate(mAngle);
         canvas.translate(-halfImageWidth, -halfImageHeight);
-        canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+        canvas.drawBitmap(mBitmap, 0, 0, mPaint);//倒叙书写绘制内容
         canvas.restore();
-
+        //重复上述过程应用于下半段图形
         canvas.translate(left + halfImageWidth, top + halfImageHeight);
         canvas.rotate(-mAngle);
-        mCamera.applyToCanvas(canvas);
-        canvas.clipRect( -mBitmap.getWidth(), 0,  mBitmap.getWidth(), mBitmap.getHeight());
+        canvas.clipRect(-mBitmap.getWidth(), 0, mBitmap.getWidth(), mBitmap.getHeight());
         canvas.rotate(mAngle);
         canvas.translate(-halfImageWidth, -halfImageHeight);
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);
     }
+
     private int mAngle = 0;
-    public void setRotate(int angle){
+
+    public void setRotate(int angle) {
         mAngle = angle;
         invalidate();
     }
