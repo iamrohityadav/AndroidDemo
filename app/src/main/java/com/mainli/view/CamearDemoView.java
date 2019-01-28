@@ -38,7 +38,7 @@ public class CamearDemoView extends View {
         mPaint.setStrokeWidth(SizeUtil.dp2Px(5));
         mCamera.rotateX(-50);
         mBitmap = BitmapUtils.getTargetWidthBitmap(getResources(), R.mipmap.logo_square, 500);
-        SizeUtil.fixCameraZ(mCamera);
+        SizeUtil.adjustCameraZHeight(mCamera);
     }
 
     @Override

@@ -20,15 +20,23 @@ public final class SizeUtil {
         return dp * SYSTEM_DISPLAY_METRICS.density;
     }
 
+    public static final int dp2PixelsInt(float dp) {
+        return (int) (dp2Px(dp) + 0.5F);
+    }
+
     public static final float sp2Px(float sp) {
         return sp * SYSTEM_DISPLAY_METRICS.density;
     }
 
+    public static final float sp2PixelsInt(float sp) {
+        return (int) (sp2Px(sp) + 0.5F);
+    }
+
     /**
-     * 修复Camera绘制时翻转相机高度
-     * 默认 camera.setLocation(0,0,-8,);
+     * 调整Camera绘制时翻转相机高度,适配手机
+     * 默认 camera.setLocation(0,0,-8);
      */
-    public static final void fixCameraZ(Camera camera) {
+    public static final void adjustCameraZHeight(Camera camera) {
         camera.setLocation(0, 0, -6 * SYSTEM_DISPLAY_METRICS.density);
     }
 }
