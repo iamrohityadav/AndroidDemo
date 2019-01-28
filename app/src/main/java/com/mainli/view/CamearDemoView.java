@@ -1,0 +1,77 @@
+package com.mainli.view;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Camera;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.util.Size;
+import android.view.View;
+
+import com.mainli.R;
+
+import com.mainli.utils.BitmapUtils;
+import com.mainli.utils.SizeUtil;
+
+public class CamearDemoView extends View {
+    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private RectF mRectF = new RectF();
+    private Camera mCamera = new Camera();
+    private Bitmap mBitmap;
+
+    public CamearDemoView(Context context) {
+        super(context);
+    }
+
+    public CamearDemoView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    {
+        mPaint.setStrokeWidth(SizeUtil.dp2Px(5));
+        mCamera.rotateX(50);
+        mBitmap = BitmapUtils.getTargetWidthBitmap(getResources(), R.mipmap.logo_square, 500);
+        SizeUtil.fixCameraZ(mCamera);
+        Log.d("Mainli", mBitmap.getWidth() + " - " + mBitmap.getWidth());
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mRectF.set(0, 0, w, h);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        int halfImageWidth = mBitmap.getWidth() >> 1;
+        int halfImageHeight = mBitmap.getHeight() >> 1;
+        float left = mRectF.centerX() - halfImageWidth;
+        float top = mRectF.centerY() - halfImageHeight;
+        canvas.save();
+        canvas.translate(left + halfImageWidth, top + halfImageHeight);
+        canvas.rotate(-mAngle);
+        canvas.clipRect( -mBitmap.getWidth(), -mBitmap.getHeight(),  mBitmap.getWidth(), 0);
+        canvas.rotate(mAngle);
+        canvas.translate(-halfImageWidth, -halfImageHeight);
+        canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+        canvas.restore();
+
+        canvas.translate(left + halfImageWidth, top + halfImageHeight);
+        canvas.rotate(-mAngle);
+        mCamera.applyToCanvas(canvas);
+        canvas.clipRect( -mBitmap.getWidth(), 0,  mBitmap.getWidth(), mBitmap.getHeight());
+        canvas.rotate(mAngle);
+        canvas.translate(-halfImageWidth, -halfImageHeight);
+        canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+    }
+    private int mAngle = 0;
+    public void setRotate(int angle){
+        mAngle = angle;
+        invalidate();
+    }
+}

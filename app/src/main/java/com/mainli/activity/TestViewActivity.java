@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
-import com.mainli.view.PieView;
+import com.mainli.view.CamearDemoView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -15,19 +15,21 @@ public class TestViewActivity extends SeekBarActivity {
     @Override
     public void attachView(@NotNull LinearLayout linearlayout) {
 //        mChild = new DashboardView(this);
-        mChild = new PieView(this);
+//        mChild = new PieView(this);
+        mChild = new CamearDemoView(this);
         linearlayout.addView(mChild);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 //        ((DashboardView) mChild).setPointerCount(progress);
-        ((PieView) mChild).setCurrentPostion(progress);
+//        ((PieView) mChild).setCurrentPostion(progress);
+        ((CamearDemoView) mChild).setRotate(progress);
     }
 
     @Override
     public int max() {
-        return 3;
+        return 720;
     }
 
 }

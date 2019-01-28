@@ -1,6 +1,7 @@
 package com.mainli.utils;
 
 import android.content.res.Resources;
+import android.graphics.Camera;
 import android.util.DisplayMetrics;
 
 public final class SizeUtil {
@@ -23,4 +24,11 @@ public final class SizeUtil {
         return sp * SYSTEM_DISPLAY_METRICS.density;
     }
 
+    /**
+     * 修复Camera绘制时翻转相机高度
+     * 默认 camera.setLocation(0,0,-8,);
+     */
+    public static final void fixCameraZ(Camera camera) {
+        camera.setLocation(0, 0, -6 * SYSTEM_DISPLAY_METRICS.density);
+    }
 }

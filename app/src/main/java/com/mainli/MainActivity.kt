@@ -16,6 +16,9 @@ class MainActivity : ListActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         list = ManifestUtils.getActivitiesClass(this, packageName, listOf(MainActivity::class.java, TestActivity::class.java))
         adjustPosition()//调整位置
+        if(BuildConfig.DEBUG){
+            startActivity(Intent(this,list.first().clazz))
+        }
         list.add(0, ManifestUtils.ActivityItem("测试", TestActivity::class.java))
         listAdapter = object : BaseAdapter() {
             override fun getItemId(position: Int): Long {
