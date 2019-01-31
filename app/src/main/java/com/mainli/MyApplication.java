@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.mainli.log.CrashHandler;
 import com.mainli.log.L;
+import com.tencent.mmkv.MMKV;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,6 +28,8 @@ public class MyApplication extends Application implements CrashHandler.ErrorHand
         L.init(new File(getExternalCacheDir(), "logs"), 4028, false);
         CrashHandler.init(this, this);
         L.i("Mainli", "- - - 启动应用 - - -");
+        //初始化key-value存储目录
+        MMKV.initialize(new File(getExternalCacheDir(),"sharedP").getAbsolutePath());
     }
 
     public static Context getAppContext() {

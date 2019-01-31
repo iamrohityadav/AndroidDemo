@@ -24,7 +24,6 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode VERSION_CODE as int
         versionName VERSION_NAME
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        externalNativeBuild {
 //            cmake {
 //                cppFlags ""
@@ -81,7 +80,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //----------第三方库----------------------------------------------------------------------------------------------------------
     //基于Rx1.6.1 RxAndroid1.2.1合成
-    implementation project(':libs:rxlib')
+    implementation project(':rxlib')
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     kapt 'com.github.bumptech.glide:compiler:4.6.1'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -90,7 +89,8 @@ dependencies {
         exclude group: 'io.reactivex'
     }
     //----------运行时注解--------------------------------------------------------------------------------------------------------
-    implementation project(':libs:annotations')
-    kapt project(':libs:processor')
-    implementation project(':libs:log')
+    implementation project(':annotations')
+    kapt project(':processor')
+    implementation project(':log')
+    implementation project(':mmkv')
 }

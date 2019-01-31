@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public final class ManifestUtils {
@@ -33,20 +32,20 @@ public final class ManifestUtils {
             PackageManager packageManager = context.getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             if (packageInfo.activities != null) {
-                Log.d(TAG, "Found " + packageInfo.activities.length + " activity in the AndrodiManifest.xml");
+//                Log.d(TAG, "Found " + packageInfo.activities.length + " activity in the AndrodiManifest.xml");
                 for (ActivityInfo ai : packageInfo.activities) {
                     Class c;
                     try {
                         c = Class.forName(ai.name);
                         if (Activity.class.isAssignableFrom(c) && !excludeList.contains(c)) {
                             returnClassList.add(new ActivityItem(ai.loadLabel(packageManager), c));
-                            Log.d(TAG, ai.name + "...OK");
+//                            Log.d(TAG, ai.name + "...OK");
                         }
                     } catch (ClassNotFoundException e) {
                         Log.d(TAG, "Class Not Found:" + ai.name);
                     }
                 }
-                Log.d(TAG, "Filter out, left " + returnClassList.size() + " activity," + Arrays.toString(returnClassList.toArray()));
+//                Log.d(TAG, "Filter out, left " + returnClassList.size() + " activity," + Arrays.toString(returnClassList.toArray()));
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

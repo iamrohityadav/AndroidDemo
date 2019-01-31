@@ -1,7 +1,7 @@
 apply from:'../local_aars.gradle'
 
 dependencies {
-    implementation project(':libs:annotations')
+    implementation project(':annotations')
     implementation 'com.google.auto.service:auto-service:1.0-rc2'
     compile 'com.squareup:javapoet:1.8.0'
 }

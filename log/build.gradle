@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
     defaultConfig {
+        minSdkVersion MIN_SDK_VERSION as int
         ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'mips', 'x86'
         }

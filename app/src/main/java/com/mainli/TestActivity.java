@@ -1,10 +1,14 @@
 package com.mainli;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.tencent.mmkv.MMKV;
 
 import java.util.List;
 
@@ -26,6 +30,7 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final TextView view = new TextView(this);
+        final MMKV sharedP = MMKV.mmkvWithID("TestActivity", MMKV.SINGLE_PROCESS_MODE, "qwqweqwe");
         setContentView(view);
         Retrofit retrofit = new Retrofit.Builder()//
                 .addConverterFactory(GsonConverterFactory.create())//
@@ -33,8 +38,15 @@ public class TestActivity extends AppCompatActivity {
                 .baseUrl("https://api.github.com/")//
                 .build();
         GitHubService service = retrofit.create(GitHubService.class);
-        service.listRepos("Android-Mainli").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(repos -> Log.d("Mainli", repos.toString()));
+        service.listRepos("Android-Mainli").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(repos -> {
+//            Log.d("Mainli", repos.toString());
+//            sharedP.encode("repos", repos.get(0));
+        });
+//        sharedP.putString("Mainli", "储存了一个字符串");
+        String mainli = sharedP.getString("Mainli", null);
+        Repos repos = sharedP.decodeParcelable("repos", Repos.class);
+        Log.d("Mainli", mainli);
+        Log.d("Mainli", repos.toString());
     }
 
     public interface GitHubService {
@@ -42,14 +54,13 @@ public class TestActivity extends AppCompatActivity {
         Observable<List<Repos>> listRepos(@Path("user") String user);
     }
 
-    public static class Repos {
+    public static class Repos implements Parcelable {
 
         private int id;
         private String node_id;
         private String name;
         private String full_name;
         private String html_url;
-        private Object description;
         private boolean fork;
         private String url;
         private String forks_url;
@@ -57,7 +68,7 @@ public class TestActivity extends AppCompatActivity {
 
         @Override
         public String toString() {
-            return "Repos{" + "id=" + id + ", node_id='" + node_id + '\'' + ", name='" + name + '\'' + ", full_name='" + full_name + '\'' + ", html_url='" + html_url + '\'' + ", description=" + description + ", fork=" + fork + ", url='" + url + '\'' + ", forks_url='" + forks_url + '\'' + ", keys_url='" + keys_url + '\'' + '}';
+            return "Repos{" + "id=" + id + ", node_id='" + node_id + '\'' + ", name='" + name + '\'' + ", full_name='" + full_name + '\'' + ", html_url='" + html_url + '\'' + ", fork=" + fork + ", url='" + url + '\'' + ", forks_url='" + forks_url + '\'' + ", keys_url='" + keys_url + '\'' + '}';
         }
 
         public int getId() {
@@ -100,14 +111,6 @@ public class TestActivity extends AppCompatActivity {
             this.html_url = html_url;
         }
 
-        public Object getDescription() {
-            return description;
-        }
-
-        public void setDescription(Object description) {
-            this.description = description;
-        }
-
         public boolean isFork() {
             return fork;
         }
@@ -139,6 +142,51 @@ public class TestActivity extends AppCompatActivity {
         public void setKeys_url(String keys_url) {
             this.keys_url = keys_url;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.node_id);
+            dest.writeString(this.name);
+            dest.writeString(this.full_name);
+            dest.writeString(this.html_url);
+            dest.writeByte(this.fork ? (byte) 1 : (byte) 0);
+            dest.writeString(this.url);
+            dest.writeString(this.forks_url);
+            dest.writeString(this.keys_url);
+        }
+
+        public Repos() {
+        }
+
+        protected Repos(Parcel in) {
+            this.id = in.readInt();
+            this.node_id = in.readString();
+            this.name = in.readString();
+            this.full_name = in.readString();
+            this.html_url = in.readString();
+            this.fork = in.readByte() != 0;
+            this.url = in.readString();
+            this.forks_url = in.readString();
+            this.keys_url = in.readString();
+        }
+
+        public static final Parcelable.Creator<Repos> CREATOR = new Parcelable.Creator<Repos>() {
+            @Override
+            public Repos createFromParcel(Parcel source) {
+                return new Repos(source);
+            }
+
+            @Override
+            public Repos[] newArray(int size) {
+                return new Repos[size];
+            }
+        };
     }
 }
 
