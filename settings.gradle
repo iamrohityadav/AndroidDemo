@@ -1,1 +1,1 @@
-include ':app', ':rxlib', ':annotations', ':processor', ':log'
+include ':app', ':libs:rxlib', ':libs:annotations', ':libs:processor', ':libs:log'
