@@ -52,14 +52,14 @@ public class RoundFrameLayout extends FrameLayout {
         }
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
-        mPorterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+        mPorterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
     }
 
     public void setRadius(int pixelSize) {
         radius = pixelSize;
         if (mPath != null && mRectF != null) {
             mPath.reset();
-            mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
+            setMask(mPath, mRectF, radius);
             invalidate();
         }
     }
@@ -69,7 +69,16 @@ public class RoundFrameLayout extends FrameLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         mRectF = new RectF(0, 0, w, h);
         mPath = new Path();
-        mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
+        setMask(mPath, mRectF, radius);
+
+    }
+
+    /**
+     * android P path范围缩小 如果只addRoundRect导致圆角失效
+     */
+    private void setMask(Path path, RectF bound, float radius) {
+        path.addRoundRect(bound, radius, radius, Path.Direction.CW);
+        path.addRect(bound, Path.Direction.CCW);
     }
 
     @Override
