@@ -31,12 +31,12 @@ class HelloPointsActivity : Activity() {
         glSurfaceView.onPause()
     }
 
-    companion object PointsRender : GLSurfaceView.Renderer {
+    object PointsRender : GLSurfaceView.Renderer {
 
 
         private const val VERTEX_SHADER = "void main() {\n" +
-        "gl_Position = vec4(0.5, -0.5, 0.0, 1.0);\n" +
-        "gl_PointSize = 120.0;\n" + "}\n"
+                "gl_Position = vec4(0.5, -0.5, 0.0, 1.0);\n" +
+                "gl_PointSize = 120.0;\n" + "}\n"
 
 
         private const val FRAGMENT_SHADER =
@@ -56,7 +56,7 @@ class HelloPointsActivity : Activity() {
 
         var mGLProgram = 1
         override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-            GLES20.glClearColor(199f/255, 237f/255, 204f/255, 1f)
+            GLES20.glClearColor(199f / 255, 237f / 255, 204f / 255, 1f)
 
             val vertex_shader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER)
             GLES20.glShaderSource(vertex_shader, VERTEX_SHADER)
