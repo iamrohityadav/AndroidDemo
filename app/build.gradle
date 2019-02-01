@@ -29,6 +29,9 @@ android {
 //                cppFlags ""
 //            }
 //        }
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a'
+        }
         signingConfig signingConfigs.signing
     }
 
@@ -92,5 +95,9 @@ dependencies {
     implementation project(':annotations')
     kapt project(':processor')
     implementation project(':log')
-    implementation project(':mmkv')
+    if (Boolean.parseBoolean(USER_AAR)) {
+        implementation("$GROUP:mmkv:1.0")
+    } else {
+        implementation project(':mmkv')
+    }
 }

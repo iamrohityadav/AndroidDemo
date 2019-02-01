@@ -1,1 +1,4 @@
-include ':app', ':rxlib', ':annotations', ':processor', ':log' , ':mmkv'
+include ':app', ':rxlib', ':annotations', ':processor', ':log'
+if (!Boolean.parseBoolean(USER_AAR)) {
+    include ':mmkv'
+}

@@ -1,14 +1,15 @@
-apply plugin: 'com.android.library'
+apply from: '../local_aars.gradle'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION as int
+
     defaultConfig {
-        minSdkVersion MIN_SDK_VERSION as int
+        versionCode 1
+        versionName '1.0.17'
         externalNativeBuild {
             cmake {
                 arguments "-DANDROID_STL=c++_shared"
                 cppFlags "-std=c++1z -fno-exceptions"
-                abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64'
+                abiFilters 'armeabi', 'armeabi-v7a', 'mips', 'mips64', 'x86', 'arm64-v8a'
             }
         }
     }
@@ -22,4 +23,8 @@ android {
 
 dependencies {
     implementation "com.android.support:support-annotations:$LIB_SUPPORT_VISION"
+}
+
+def getLibraryName() {
+    'mmkv'
 }

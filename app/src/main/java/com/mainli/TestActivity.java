@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
@@ -43,10 +42,6 @@ public class TestActivity extends AppCompatActivity {
 //            sharedP.encode("repos", repos.get(0));
         });
 //        sharedP.putString("Mainli", "储存了一个字符串");
-        String mainli = sharedP.getString("Mainli", null);
-        Repos repos = sharedP.decodeParcelable("repos", Repos.class);
-        Log.d("Mainli", mainli);
-        Log.d("Mainli", repos.toString());
     }
 
     public interface GitHubService {

@@ -1,28 +1,39 @@
-apply plugin: 'java'
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    defaultConfig {
+        minSdkVersion MIN_SDK_VERSION as int
+    }
+}
+
+
 apply plugin: 'maven-publish'
 
-
-def output = 'build/libs'
+def output = 'build/outputs/aar'
 def outputJarName = getLibraryName()
+
+
 
 publishing {
     repositories {
         maven {
-            url '../aars/'
+            url '../maven/'
         }
     }
 
     publications {
         mavenRelease(MavenPublication) {
             def type = 'release'
-            def jarFile = file(output + "/" + outputJarName + ".jar")
-            if (jarFile.exists()) {
+            def targetFile = file("${output}/${outputJarName}-${type}.aar")
+
+            if (targetFile.exists()) {
                 groupId GROUP
                 artifactId outputJarName
-                version version
-                artifact source: jarFile, classifier: type, extension: "jar"
+                version VERSION_NAME
+                artifact source: targetFile, extension: "aar"
             } else {
-                println "$outputJarName $type aar is not exists"
+                println "error - $outputJarName $type aar 不存在"
             }
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')

@@ -1,4 +1,4 @@
-apply from:'../local_aars.gradle'
+apply plugin: 'java'
 
 dependencies {
     implementation project(':annotations')
@@ -8,6 +8,3 @@ dependencies {
 version = '1.0.0'
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
-def getLibraryName(){
-    'processor'
-}
