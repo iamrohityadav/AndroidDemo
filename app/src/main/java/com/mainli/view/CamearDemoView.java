@@ -8,12 +8,10 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.Size;
 import android.view.View;
 
 import com.mainli.R;
-
+import com.mainli.blur.BitmapBlur;
 import com.mainli.utils.BitmapUtils;
 import com.mainli.utils.SizeUtil;
 
@@ -38,6 +36,7 @@ public class CamearDemoView extends View {
         mPaint.setStrokeWidth(SizeUtil.dp2Px(5));
         mCamera.rotateX(-50);
         mBitmap = BitmapUtils.getTargetWidthBitmap(getResources(), R.mipmap.logo_square, 500);
+        mBitmap = BitmapBlur.blur(mBitmap, 8f);
         SizeUtil.adjustCameraZHeight(mCamera);
     }
 
