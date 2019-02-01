@@ -10,11 +10,6 @@ android {
 
 apply plugin: 'maven-publish'
 
-def output = 'build/outputs/aar'
-def outputJarName = getLibraryName()
-
-
-
 publishing {
     repositories {
         maven {
@@ -24,16 +19,15 @@ publishing {
 
     publications {
         mavenRelease(MavenPublication) {
-            def type = 'release'
-            def targetFile = file("${output}/${outputJarName}-${type}.aar")
+            def targetFile = file("build/outputs/aar/${getLibraryName()}-release.aar")
 
             if (targetFile.exists()) {
                 groupId GROUP
                 artifactId outputJarName
-                version VERSION_NAME
+                version "1.0"
                 artifact source: targetFile, extension: "aar"
             } else {
-                println "error - $outputJarName $type aar 不存在"
+                println "error - ${outputJarName}不存在"
             }
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
