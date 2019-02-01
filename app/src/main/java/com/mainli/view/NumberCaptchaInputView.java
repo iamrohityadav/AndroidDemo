@@ -42,7 +42,7 @@ public class NumberCaptchaInputView extends AppCompatEditText {
     public NumberCaptchaInputView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberCaptcha, defStyleAttr, 0);
-        mGapWidth = a.getDimension(R.styleable.NumberCaptcha_gapWitch, dp2Px(2));
+        mGapWidth = a.getDimension(R.styleable.NumberCaptcha_gapWidth, dp2Px(2));
         cursorLineSize = a.getDimension(R.styleable.NumberCaptcha_cursorLineSize, dp2Px(2));
         mCaptchaSize = a.getInt(R.styleable.NumberCaptcha_captchaSize, 4);
         a.recycle();

@@ -38,7 +38,7 @@ private class MyCaptchaDraw(private val density: Float) : NumberCaptchaInputView
     private val NUMBER_COLOR = 0xDE000000.toInt()
     private var textFixHeight: Float = 0.toFloat()
     private var cornersSize: Float = 0.toFloat()
-    private var gapWitch: Float = 0.toFloat()
+    private var gapWidth: Float = 0.toFloat()
 
     private var numberOccupyWidth: Int = 0
     private var left: Int = 0
@@ -61,7 +61,7 @@ private class MyCaptchaDraw(private val density: Float) : NumberCaptchaInputView
     override fun onItemDraw(canvas: Canvas, position: Int, text: CharSequence, numberPaint: Paint, cursorPaint: Paint) {
         val s = text.toString()
         var endIndex = text.length - 1;
-        val start = ((numberOccupyWidth + gapWitch) * position + left).toInt()
+        val start = ((numberOccupyWidth + gapWidth) * position + left).toInt()
         if (endIndex == -1 && position == 0) {
             cursorPaint.setColor(CURRENT_CURSOR_COLOR)
             canvas.drawLine(start.toFloat(), bottom, (start + numberOccupyWidth).toFloat(), bottom, cursorPaint)
@@ -81,7 +81,7 @@ private class MyCaptchaDraw(private val density: Float) : NumberCaptchaInputView
 
     override fun onDrawMeasure(numberOccupyWidth: Int, numberOccupyHeight: Int, gapWitch: Float, left: Int, top: Int, right: Int, bottom: Int, textFixHeight: Float) {
         this.numberOccupyWidth = numberOccupyWidth
-        this.gapWitch = gapWitch
+        this.gapWidth = gapWitch
         this.left = left
         this.top = top
         this.top = top

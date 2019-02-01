@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="NumberCaptcha">
         <attr name="captchaSize" format="integer"/>
-        <attr name="gapWitch" format="dimension"/>
+        <attr name="gapWidth" format="dimension"/>
         <attr name="cursorLineSize" format="dimension"/>
     </declare-styleable>
 
