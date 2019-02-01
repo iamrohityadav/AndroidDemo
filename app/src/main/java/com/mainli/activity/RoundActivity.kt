@@ -1,5 +1,6 @@
 package com.mainli.activity
 
+import android.graphics.Bitmap
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -17,8 +18,8 @@ class RoundActivity : SeekBarActivity() {
         roundFrameLayout = RoundFrameLayout(this)
         val imageView = ImageView(this)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        val targetWidthBitmap = BitmapUtils.getTargetWidthBitmap(resources, R.mipmap.img_test, SizeUtil.getScreenWidthPixels())
-        imageView.setImageBitmap(BitmapBlur.blur(targetWidthBitmap,15f))
+        val bitmap = BitmapUtils.getTargetWidthBitmap(resources, R.mipmap.img_test, SizeUtil.getScreenWidthPixels())
+        imageView.setImageBitmap(BitmapBlur.blur(bitmap, 6F))
         roundFrameLayout.addView(imageView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
         val layoutParams = LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
         val dp50 = 50.toDpInt()
@@ -30,6 +31,7 @@ class RoundActivity : SeekBarActivity() {
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
         roundFrameLayout.setRadius(progress.toDpInt())
     }
 
