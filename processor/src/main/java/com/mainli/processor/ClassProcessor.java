@@ -66,15 +66,7 @@ public class ClassProcessor extends AbstractProcessor {
             }
         }
         if (roundEnv.processingOver()) {
-            JavaFile javaFile = JavaFile.builder(PACK_NAME,
-                    TypeSpec.classBuilder("Log")
-                            .addJavadoc("生成$SLog类doc,Log类用于记录process的日志\n",PACK_NAME)
-                            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                            .addField(
-                                    FieldSpec.builder(String.class, "log")
-                                            .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
-                                            .initializer("$S", mLog.toString()).build())
-                            .build()).build();
+            JavaFile javaFile = JavaFile.builder(PACK_NAME, TypeSpec.classBuilder("Log").addJavadoc("生成$SLog类doc,Log类用于记录process的日志\n", PACK_NAME).addModifiers(Modifier.PUBLIC, Modifier.FINAL).addField(FieldSpec.builder(String.class, "log").addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC).initializer("$S", mLog.toString()).build()).build()).build();
             try {
                 javaFile.writeTo(processingEnv.getFiler());
             } catch (IOException e) {
@@ -89,7 +81,7 @@ public class ClassProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         String canonicalName = BindView.class.getCanonicalName();
-        print(String.format("生成Log类:%s.Log\n使用注解:%s\n----------------------------------------------------------------------------", PACK_NAME,canonicalName));
+        print(String.format("生成Log类:%s.Log\n使用注解:%s\n----------------------------------------------------------------------------", PACK_NAME, canonicalName));
         return Collections.singleton(canonicalName);
     }
 
@@ -115,7 +107,7 @@ public class ClassProcessor extends AbstractProcessor {
         mLog.append(msg).append("\n\n\r");
     }
 
-    final String LOG_PATH = "D:\\processor-log.txt";
+    final String LOG_PATH = new File(".").getPath();
 
     public void writeLog(String str) {
         FileOutputStream fileOutputStream = null;
