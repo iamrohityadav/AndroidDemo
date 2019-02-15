@@ -10,6 +10,8 @@ android {
 
 apply plugin: 'maven-publish'
 
+def outputJarName = getLibraryName();
+
 publishing {
     repositories {
         maven {
@@ -19,8 +21,7 @@ publishing {
 
     publications {
         mavenRelease(MavenPublication) {
-            def targetFile = file("build/outputs/aar/${getLibraryName()}-release.aar")
-
+            def targetFile = file("build/outputs/aar/${outputJarName}-release.aar")
             if (targetFile.exists()) {
                 groupId GROUP
                 artifactId outputJarName
