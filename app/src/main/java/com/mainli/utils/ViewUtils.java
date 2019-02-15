@@ -5,21 +5,13 @@ import android.graphics.Outline;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewOutlineProvider;
-import android.view.ViewTreeObserver;
 
 public final class ViewUtils {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void clipRoundView(final View targetView, float radius) {
-        targetView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                targetView.getViewTreeObserver().removeOnPreDrawListener(this);
-                targetView.setClipToOutline(true);
-                targetView.setOutlineProvider(new ClipRoundViewOutlineProvider(radius));
-                return false;
-            }
-        });
+        targetView.setClipToOutline(true);
+        targetView.setOutlineProvider(new ClipRoundViewOutlineProvider(radius));
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

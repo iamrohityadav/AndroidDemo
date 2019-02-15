@@ -3,8 +3,10 @@ package com.mainli;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
@@ -38,17 +40,16 @@ public class TestActivity extends AppCompatActivity {
                 .build();
         GitHubService service = retrofit.create(GitHubService.class);
         service.listRepos("Android-Mainli").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(repos -> {
-//            Log.d("Mainli", repos.toString());
-//            sharedP.encode("repos", repos.get(0));
+            Log.d("Mainli", repos.toString());
+            sharedP.encode("repos", repos.get(0));
         });
-//        sharedP.putString("Mainli", "储存了一个字符串");
     }
 
     public interface GitHubService {
         @GET("users/{user}/repos")
         Observable<List<Repos>> listRepos(@Path("user") String user);
     }
-
+    @Keep
     public static class Repos implements Parcelable {
 
         private int id;
