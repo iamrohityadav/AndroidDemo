@@ -3,7 +3,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <android/bitmap.h>
-#include <android/log.h>
 
 void CalGaussianCoeff(float sigma, float *a0, float *a1, float *a2, float *a3, float *b1, float *b2,
                       float *cprev, float *cnext) {
@@ -300,12 +299,7 @@ static jobject blurBitmap(
     unsigned char *data = NULL;//初始化Bitmap图像数据指针
     AndroidBitmap_getInfo(env, bmp, &info);
     AndroidBitmap_lockPixels(env, bmp, (void **) &data);//锁定Bitmap，并且获得指针
-    /**********高斯模糊算法作对int数组进行处理***********/
-    //调用GaussianBlurFilter函数，把图像数据指针、图片长宽和模糊半径传入(算法来自:https://www.cnblogs.com/tntmonks/p/5291660.html)
-//    __android_log_print(ANDROID_LOG_ERROR, "Native-Mainli", "模糊开始,宽:%d,高%d", info.width, info.height);
     GaussianBlurFilter(data, info.width, info.height, intensity);
-//    __android_log_print(ANDROID_LOG_ERROR, "Native-Mainli", "模糊完成,宽:%d,高%d", info.width, info.height);
-    /****************************************************/
     AndroidBitmap_unlockPixels(env, bmp);//解锁
     return bmp;
 }
