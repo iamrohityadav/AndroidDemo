@@ -293,6 +293,9 @@ GaussianBlurFilter(unsigned char *input, int Width, int Height,float GaussianSig
 static jobject blurBitmap(
         JNIEnv *env,
         jobject /* this */, jobject bmp, jfloat intensity) {
+    if (intensity <= 0) {
+        return bmp;
+    }
     AndroidBitmapInfo info = {0};//初始化BitmapInfo结构体
     unsigned char *data = NULL;//初始化Bitmap图像数据指针
     AndroidBitmap_getInfo(env, bmp, &info);
