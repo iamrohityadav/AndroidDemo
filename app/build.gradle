@@ -93,15 +93,15 @@ dependencies {
     //----------运行时注解--------------------------------------------------------------------------------------------------------
     implementation project(':annotations')
     kapt project(':processor')
+    //与强度无关的高斯模糊
+    implementation 'com.mainli:blur:1.0.0'
 
     if (Boolean.parseBoolean(USER_AAR)) {
         implementation("$GROUP:mmkv:1.0")
         implementation("$GROUP:log:1.0")
-        implementation("$GROUP:blur:1.0")
     } else {
         implementation project(':mmkv')
         implementation project(':log')
-        implementation project(':blur')
     }
 }
 //详细文档 https://github.com/shwenzhang/AndResGuard/blob/master/doc/how_to_work.zh-cn.md
