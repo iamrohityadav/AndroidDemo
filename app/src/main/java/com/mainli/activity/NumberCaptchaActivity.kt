@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.mainli.R
 import com.mainli.view.NumberCaptchaInputView
+import com.seekting.demo_lib.Demo
 
 /**
  * Created by Mainli on 2018-4-8.
  */
+@Demo(title = "验证码控件", group = ["View"])
 class NumberCaptchaActivity : AppCompatActivity() {
     lateinit var view: NumberCaptchaInputView
     override fun onCreate(savedInstanceState: Bundle?) {

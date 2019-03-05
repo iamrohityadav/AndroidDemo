@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.seekting.demo_lib.Demo;
 import com.tencent.mmkv.MMKV;
 
 import java.util.List;
@@ -25,7 +26,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Mainli on 2018-3-21.
  */
-
+@Demo(title = "测试")
 public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

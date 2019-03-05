@@ -9,10 +9,12 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.mainli.dawable.DiceAnimationListener
 import com.mainli.dawable.DiceDrawable
+import com.seekting.demo_lib.Demo
 
 /**
  * Created by mobimagic on 2018/2/27.
  */
+@Demo(title = "骰子DrawableDice", group = ["Drawable","View"])
 class DiceActivity : AppCompatActivity(), View.OnClickListener, DiceAnimationListener {
     private var canSwitch = true
     override fun onFinishDiceAnimation() {

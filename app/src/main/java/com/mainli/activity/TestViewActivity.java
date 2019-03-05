@@ -1,14 +1,11 @@
 package com.mainli.activity;
 
 import android.graphics.Color;
-import android.graphics.Outline;
 import android.os.Build;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
-import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -16,11 +13,12 @@ import android.widget.TextView;
 import com.mainli.utils.SizeUtil;
 import com.mainli.utils.ViewUtils;
 import com.mainli.view.TagLayout;
+import com.seekting.demo_lib.Demo;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
-
+@Demo(title = "测试自定义View",group = {"View"})
 public class TestViewActivity extends SeekBarActivity {
 
     private View mChild;

@@ -1,6 +1,5 @@
 package com.mainli.activity
 
-import android.graphics.Bitmap
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -11,7 +10,9 @@ import com.mainli.utils.BitmapUtils
 import com.mainli.utils.SizeUtil
 import com.mainli.utils.toDpInt
 import com.mainli.view.RoundFrameLayout
+import com.seekting.demo_lib.Demo
 
+@Demo(title = "子View统一圆角处理FramLayout", group = ["View"])
 class RoundActivity : SeekBarActivity() {
     lateinit var roundFrameLayout: RoundFrameLayout
     override fun attachView(linearlayout: LinearLayout) {

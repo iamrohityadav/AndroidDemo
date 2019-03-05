@@ -5,20 +5,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.mainli.R;
 import com.mainli.recyclerview.RViewHolder;
 import com.mainli.recyclerview.RecyclerAdapter;
+import com.seekting.demo_lib.Demo;
 
 import java.util.Arrays;
 
 /**
  * Created by lixiaoliang on 2018-5-3.
  */
+@Demo(title = "CoordinatorLayout自定义Behavior", group = {"UI"})
 public class CoordinatorLayoutActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;

@@ -95,7 +95,7 @@ dependencies {
     kapt project(':processor')
     //与强度无关的高斯模糊
     implementation 'com.mainli:blur:1.0.0'
-
+    implementation 'com.seekting:demolib:1.2.11'
     if (Boolean.parseBoolean(USER_AAR)) {
         implementation("$GROUP:mmkv:1.0")
         implementation("$GROUP:log:1.0")

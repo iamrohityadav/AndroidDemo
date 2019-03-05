@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.mainli.R;
 import com.mainli.animutils.AnimationsContainer;
+import com.seekting.demo_lib.Demo;
 
 
 /**
@@ -30,6 +31,7 @@ import com.mainli.animutils.AnimationsContainer;
  * 來源：简书
  * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
  */
+@Demo(title = "帧动画优化内存",group = {"其他"})
 public class AnimationsContainerTestActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button playBtn1, playBtn2;

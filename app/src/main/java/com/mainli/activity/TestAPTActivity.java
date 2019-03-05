@@ -7,12 +7,14 @@ import android.widget.TextView;
 
 import com.mainli.R;
 import com.mainli.annotations.BindView;
+import com.seekting.demo_lib.Demo;
 
 
 /**
  * Created by Mainli on 2018-3-26.
  * 日志文件 放在D:\processor-log.txt
  */
+@Demo(title = "自定义编译时注解",group = {"框架"})
 public class TestAPTActivity extends AppCompatActivity {
     @BindView(R.id.bottom)
     TextView tx;

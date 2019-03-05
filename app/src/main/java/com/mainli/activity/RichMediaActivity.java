@@ -3,18 +3,18 @@ package com.mainli.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.mainli.R;
 import com.mainli.utils.MarkDownURLMatcher;
 import com.mainli.view.LinkedEditText;
+import com.seekting.demo_lib.Demo;
 
 /**
  * Created by Mainli on 2018-3-28.
  */
+@Demo(title = "Emoji表情", group = {"View"})
 public class RichMediaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

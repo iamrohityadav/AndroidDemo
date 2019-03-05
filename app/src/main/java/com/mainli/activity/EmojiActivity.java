@@ -14,10 +14,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.mainli.view.EmojisView;
+import com.seekting.demo_lib.Demo;
 
 /**
  * Created by lixiaoliang on 2018-4-26.
  */
+@Demo(title = "Emoji表情", group = {"View"})
 public class EmojiActivity extends AppCompatActivity implements EmojisView.OnEmojiListener {
     private String[][] emojis1 = {//
             {"\ud83d\ude04", "\ud83d\ude02", "\ud83d\ude43", "\ud83d\ude18", "\ud83d\ude0d", "\ud83d\ude1b", "\ud83e\udd11"}, //

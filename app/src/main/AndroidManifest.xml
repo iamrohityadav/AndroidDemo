@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.seekting.demo_lib.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -36,7 +36,7 @@
             android:label="帧动画优化内存"/>
         <activity
             android:name=".activity.TestAPTActivity"
-            android:label="编译时注解"/>
+            android:label="自定义编译时注解"/>
         <activity
             android:name=".activity.RichMediaActivity"
             android:label="富媒体(文本中插入链接)"

@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.mainli.log.CrashHandler;
 import com.mainli.log.L;
+import com.seekting.demo_lib.Demo;
+import com.seekting.demo_lib.DemoLib;
 import com.tencent.mmkv.MMKV;
 
 import java.io.File;
@@ -24,6 +26,7 @@ public class MyApplication extends Application implements CrashHandler.ErrorHand
     @Override
     public void onCreate() {
         super.onCreate();
+        DemoLib.init(this);
         MyApplication.mContext = getApplicationContext();
         L.init(new File(getExternalCacheDir(), "logs"), 4028, false);
         CrashHandler.init(this, this);

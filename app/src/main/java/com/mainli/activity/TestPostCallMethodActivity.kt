@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import com.mainli.dialog.AppDialogFragment
+import com.seekting.demo_lib.Demo
 
 /**
  * Created by mobimagic on 2018/3/2.
  */
+@Demo(title = "onPostCreate和onPostResume生命周期方法测试",group = ["Test"])
 class TestPostCallMethodActivity : AppCompatActivity() {
     companion object {
         val TAG = "TestPostCallMethod"

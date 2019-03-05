@@ -7,11 +7,13 @@ import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import com.mainli.R
 import com.mainli.glide.GlideApp
+import com.seekting.demo_lib.Demo
 
 
 /**
  * Created by lixiaoliang on 2018-4-13.
  */
+@Demo(title = "Glide加载大图", group = ["框架"])
 class GlideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
