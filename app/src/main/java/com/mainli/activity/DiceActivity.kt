@@ -14,7 +14,7 @@ import com.seekting.demo_lib.Demo
 /**
  * Created by mobimagic on 2018/2/27.
  */
-@Demo(title = "骰子DrawableDice", group = ["Drawable","View"])
+@Demo(title = "骰子DrawableDice", group = ["Drawable"])
 class DiceActivity : AppCompatActivity(), View.OnClickListener, DiceAnimationListener {
     private var canSwitch = true
     override fun onFinishDiceAnimation() {

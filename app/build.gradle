@@ -99,10 +99,13 @@ dependencies {
     if (Boolean.parseBoolean(USER_AAR)) {
         implementation("$GROUP:mmkv:1.0")
         implementation("$GROUP:log:1.0")
+        implementation("$GROUP:xscan:1.0")
     } else {
         implementation project(':mmkv')
         implementation project(':log')
+        implementation project(':xscan')
     }
+
 }
 //详细文档 https://github.com/shwenzhang/AndResGuard/blob/master/doc/how_to_work.zh-cn.md
 andResGuard {
