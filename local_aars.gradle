@@ -20,13 +20,17 @@ publishing {
     }
 
     publications {
-        mavenRelease(MavenPublication) {
+        mavenLocal(MavenPublication) {
             def targetFile = file("build/outputs/aar/${outputJarName}-release.aar")
             if (targetFile.exists()) {
                 groupId GROUP
                 artifactId outputJarName
                 version "1.0"
                 artifact source: targetFile, extension: "aar"
+                //配置上传源码
+                artifact sourceJar {
+                    classifier "sources"
+                }
             } else {
                 println "error - ${outputJarName}不存在"
             }
@@ -44,6 +48,11 @@ publishing {
             }
         }
     }
+}
+
+//打包源码
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.sourceFiles
 }
 
 def handleCompileDependencies(dependencies, dependencyNodes) {
