@@ -64,6 +64,9 @@
         <activity
             android:name=".activity.TestViewActivity"
             android:label="测试自定义View"/>
+        <activity
+            android:name=".activity.TestLayoutChangeListenerActivity"
+            android:label="测试LayoutChangeListener,实现LinearLayout右上角加View"/>
     </application>
 
 </manifest>
