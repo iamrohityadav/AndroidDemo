@@ -55,16 +55,6 @@ public class L {
         println(WARN, tag, msg);
     }
 
-    /**
-     * 用于测试格式化输出耗时时使用
-     *
-     * @param tag
-     * @param msg
-     */
-    public static void w1(String tag, String msg) {
-        sLogBuffer.write(sFormatter.format(WARN, tag, msg));
-    }
-
     public static void w(String tag, String msg, Throwable tr) {
         println(WARN, tag, msg + "\n" + getStackTraceString(tr));
     }

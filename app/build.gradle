@@ -5,6 +5,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'AndResGuard'
+apply plugin: 'com.google.protobuf'
+
+
 android {
 
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -61,7 +64,15 @@ android {
         }
     }
 
-
+    sourceSets {
+        main {
+            // 定义proto文件目录
+            proto {
+                srcDir 'src/main/proto'
+                include '**/*.proto'
+            }
+        }
+    }
 
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
@@ -105,8 +116,31 @@ dependencies {
         implementation project(':log')
         implementation project(':xscan')
     }
-
+    implementation "com.google.protobuf:protobuf-lite:3.0.0"
+    implementation ('com.squareup.retrofit2:converter-protobuf:2.2.0') {
+        exclude group: 'com.google.protobuf', module: 'protobuf-java'
+    }
 }
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        javalite {
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                javalite {}
+            }
+        }
+    }
+}
+
+
+
 //详细文档 https://github.com/shwenzhang/AndResGuard/blob/master/doc/how_to_work.zh-cn.md
 andResGuard {
     //可以在mappingFile指向的文件添加保持资源命名的一致性

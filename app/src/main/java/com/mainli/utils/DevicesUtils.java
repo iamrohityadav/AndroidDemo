@@ -4,10 +4,12 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.MessageDigest;
 
-public class OSUtils {
+public class DevicesUtils {
 
     public static final String ROM_MIUI = "MIUI";
     public static final String ROM_EMUI = "EMUI";
@@ -115,6 +117,56 @@ public class OSUtils {
             }
         }
         return line;
+    }
+
+    public String getPesudoUniqueID() {
+        String m_szDevIDShort = "35" + //we make this look like a valid IMEI
+                Build.BOARD.length() % 10//
+                + Build.BRAND.length() % 10//
+                + Build.CPU_ABI.length() % 10//
+                + Build.DEVICE.length() % 10//
+                + Build.DISPLAY.length() % 10//
+                + Build.HOST.length() % 10//
+                + Build.ID.length() % 10//
+                + Build.MANUFACTURER.length() % 10//
+                + Build.MODEL.length() % 10//
+                + Build.PRODUCT.length() % 10//
+                + Build.TAGS.length() % 10//
+                + Build.TYPE.length() % 10//
+                + Build.USER.length() % 10; //13 digits
+
+        return md5(m_szDevIDShort + Build.SERIAL);
+    }
+
+    public static boolean isRoot() {
+        try {
+            File su = new File("/system/bin/su");
+            return su.exists();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // md5，32位小写
+    public static String md5(String str) {
+        MessageDigest md5 = null;
+        try {
+            md5 = MessageDigest.getInstance("md5");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+        md5.update(str.getBytes());
+        byte[] md5Bytes = md5.digest();
+        StringBuilder hexValue = new StringBuilder();
+        for (int i = 0; i < md5Bytes.length; i++) {
+            int val = ((int) md5Bytes[i]) & 0xff;
+            if (val < 16) {
+                hexValue.append("0");
+            }
+            hexValue.append(Integer.toHexString(val));
+        }
+        return hexValue.toString();
     }
 }
 

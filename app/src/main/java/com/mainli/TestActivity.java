@@ -6,12 +6,15 @@ import android.os.Parcelable;
 import android.support.annotation.Keep;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
+import com.google.protobuf.ByteString;
+import com.mainli.log.L;
+import com.mainli.proto.LoginInfo;
 import com.seekting.demo_lib.Demo;
 import com.tencent.mmkv.MMKV;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Retrofit;
@@ -32,8 +35,24 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final TextView view = new TextView(this);
-        final MMKV sharedP = MMKV.mmkvWithID("TestActivity", MMKV.SINGLE_PROCESS_MODE, "qwqweqwe");
         setContentView(view);
+//        testNetwork(sharedP);
+        testGoogleProtocolBuffer(view);
+    }
+
+    private void testGoogleProtocolBuffer(TextView view) {
+        LoginInfo.Login loginInfo = LoginInfo.Login.newBuilder().setAccount("12345678911--").setPassword("789890").build();
+        ByteString bytes1 = loginInfo.toByteString();
+        try {
+            LoginInfo.Login login = LoginInfo.Login.parseFrom(bytes1);
+            view.setText(login.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void testNetwork() {
+        final MMKV sharedP = MMKV.mmkvWithID("TestActivity", MMKV.SINGLE_PROCESS_MODE, "qwqweqwe");
         Retrofit retrofit = new Retrofit.Builder()//
                 .addConverterFactory(GsonConverterFactory.create())//
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
@@ -41,7 +60,7 @@ public class TestActivity extends AppCompatActivity {
                 .build();
         GitHubService service = retrofit.create(GitHubService.class);
         service.listRepos("Android-Mainli").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(repos -> {
-            Log.d("Mainli", repos.toString());
+            L.d("Mainli", repos.toString());
             sharedP.encode("repos", repos.get(0));
         });
     }
@@ -50,6 +69,7 @@ public class TestActivity extends AppCompatActivity {
         @GET("users/{user}/repos")
         Observable<List<Repos>> listRepos(@Path("user") String user);
     }
+
     @Keep
     public static class Repos implements Parcelable {
 
