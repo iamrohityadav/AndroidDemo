@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -35,6 +36,9 @@ public class MultiPointMeanView extends View {
 
     private float oldX, oldY;
 
+    /**
+     *
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int count = event.getPointerCount();
@@ -58,6 +62,7 @@ public class MultiPointMeanView extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
+                Log.d("Mainli", "ACTION_POINTER_DOWN:" + event.getActionIndex());
                 oldX = x;
                 oldY = y;
                 break;

@@ -35,19 +35,30 @@ public class MultiPointRelayView extends View {
 
     private float mOldX;
     private float mOldY;
-    private int mActiveIndex;
+    private int mActivePointId;
 
+    /**
+     * 触摸点有(x,y,index,id)等数据
+     * <p>
+     * 当多个触摸点,其中之一抬起时 index 发生改变 id不会变
+     * 我们记录当前触摸的id  发生ACTION_POINTER_UP时 判断是否是当前控制手指抬起,如果不是 什么也不做,如果是则根据策略选择下一手指接替
+     * <p>
+     * 1. 获取当前非ACTION_MOVE时间触发手指index 使用event.getActionIndex()方法
+     * 2. 通过index转化得到ID 使用event.getPointerId(index)方法
+     * 3. 通过id获取该id当前index 使用event.findPointerIndex(id)
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                mActiveIndex = event.getActionIndex();
-                mOldX = event.getX(mActiveIndex);
-                mOldY = event.getY(mActiveIndex);
+                mActivePointId = event.getPointerId(event.getActionIndex());
+                mOldX = event.getX();
+                mOldY = event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                float x = event.getX(mActiveIndex);
-                float y = event.getY(mActiveIndex);
+                int activeIndex = event.findPointerIndex(mActivePointId);
+                float x = event.getX(activeIndex);
+                float y = event.getY(activeIndex);
                 mOffsetX += x - mOldX;
                 mOffsetY += y - mOldY;
                 mOldX = x;
@@ -55,23 +66,30 @@ public class MultiPointRelayView extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
-                mActiveIndex = event.getActionIndex();
-                mOldX = event.getX(mActiveIndex);
-                mOldY = event.getY(mActiveIndex);
+                activeIndex = event.getActionIndex();
+                mActivePointId = event.getPointerId(activeIndex);
+                mOldX = event.getX(activeIndex);
+                mOldY = event.getY(activeIndex);
                 break;
             case MotionEvent.ACTION_POINTER_UP:
-                mActiveIndex = event.getActionIndex();
-                /**
-                 * 抬起手指时数组
-                 */
-                if (mActiveIndex == 0) {
-                    mOldX = event.getX(1);
-                    mOldY = event.getY(1);
-                } else {
-                    mActiveIndex = 0;//直接取第一个按下手指控制逻辑 模仿ListView多指策略接替
-//                    mActiveIndex--;//取前一个按下手指
-                    mOldX = event.getX(mActiveIndex);
-                    mOldY = event.getY(mActiveIndex);
+                activeIndex = event.getActionIndex();
+                int pointerUpId = event.getPointerId(activeIndex);
+                if (pointerUpId == mActivePointId) {//当前正在使用PointId手指抬起
+                    /*抬起手指时找寻最靠前按下手指*/
+//                    if (activeIndex == 0) {
+//                        activeIndex = 1;
+//                    } else {
+//                        activeIndex = 0;
+//                    }
+                    /*抬起手指时找寻最靠后按下手指*/
+                    if (activeIndex == event.getPointerCount() - 1) {
+                        activeIndex--;
+                    } else {
+                        activeIndex = event.getPointerCount() - 1;
+                    }
+                    mOldX = event.getX(activeIndex);
+                    mOldY = event.getY(activeIndex);
+                    mActivePointId = event.getPointerId(activeIndex);
                 }
                 break;
         }

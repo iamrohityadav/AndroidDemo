@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.mainli.R
 import com.mainli.utils.AttachPosition
-import com.mainli.view.MultiPointTouch.MultiPointNoAssociationView
+import com.mainli.view.MultiPointTouch.MultiPointRelayView
 import com.seekting.demo_lib.Demo
 
 @Demo(title = "测试LayoutChangeListener,实现LinearLayout右上角加View", group = ["Test"])
@@ -26,7 +26,7 @@ class TestLayoutChangeListenerActivity : AppCompatActivity() {
         val (textView4, layoutParams4) = create("左下角")
         AttachPosition.attachLeftBottom(viewGroup, textView4, layoutParams4);
 //        val (textView5, layoutParams5) = create("居中")
-        AttachPosition.attachCenter(viewGroup, MultiPointNoAssociationView(this), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        AttachPosition.attachCenter(viewGroup, MultiPointRelayView(this), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
     }
 
     private fun create(msg: String): Pair<TextView, LinearLayout.LayoutParams> {
