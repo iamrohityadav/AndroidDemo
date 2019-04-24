@@ -1,5 +1,5 @@
 ![](image/mainli.svg)
-# **[Mainli](https://mainli.320.io) - 学习以及Demo编写**
+# **[Mainli](https://wiki.96kg.cn) - 学习以及Demo编写**
 
 |序号|名称|Demo相关Activity|备注|
 |:-:|:-:|:-:|:-:|
@@ -67,4 +67,4 @@
 [avater4]:http://www.gravatar.com/avatar/88593401?s=30&d=retro
 [avater5]:http://www.gravatar.com/avatar/88593401?s=30&d=robohash
 [animations]:https://github.com/VDshixiaoming/AnimationTest
-[RichMedia]:DOC/richmedia/RichMedia.MD
+[RichMedia]:https://wiki.96kg.cn/2019/03/%E8%87%AA%E5%AE%9A%E4%B9%89View-%E9%92%88%E5%AF%B9EditText%E7%9A%84Markdown%E9%93%BE%E6%8E%A5%E5%BC%8F%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91.html
