@@ -21,9 +21,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -36,7 +36,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final TextView view = new TextView(this);
         setContentView(view);
-//        testNetwork(sharedP);
+        testNetwork();
         testGoogleProtocolBuffer(view);
     }
 
@@ -56,108 +56,80 @@ public class TestActivity extends AppCompatActivity {
         Retrofit retrofit = new Retrofit.Builder()//
                 .addConverterFactory(GsonConverterFactory.create())//
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
-                .baseUrl("https://api.github.com/")//
+                .baseUrl("https://www.wanandroid.com/")//
                 .build();
         GitHubService service = retrofit.create(GitHubService.class);
-        service.listRepos("Android-Mainli").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(repos -> {
-            L.d("Mainli", repos.toString());
-            sharedP.encode("repos", repos.get(0));
+        service.getCoupon().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(coupons -> {
+            L.d("Mainli", coupons.toString());
+            sharedP.encode("coupon", coupons.get(0));
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                L.e("Mainli", throwable);
+            }
         });
     }
 
     public interface GitHubService {
-        @GET("users/{user}/repos")
-        Observable<List<Repos>> listRepos(@Path("user") String user);
+        @GET("tools/mockapi/2385/coupon")
+        Observable<List<Coupon>> getCoupon();
     }
 
     @Keep
-    public static class Repos implements Parcelable {
+    public static class Coupon implements Parcelable {
 
-        private int id;
-        private String node_id;
-        private String name;
-        private String full_name;
-        private String html_url;
-        private boolean fork;
-        private String url;
-        private String forks_url;
-        private String keys_url;
+        /**
+         * invalidTime : 2018-08-30
+         * obtainTime : 2018-08-15
+         * code : KBRC332GYBWX
+         * discountedPrice : $30
+         * useAddress : cmgo73.myshopify.com
+         */
 
-        @Override
-        public String toString() {
-            return "Repos{" + "id=" + id + ", node_id='" + node_id + '\'' + ", name='" + name + '\'' + ", full_name='" + full_name + '\'' + ", html_url='" + html_url + '\'' + ", fork=" + fork + ", url='" + url + '\'' + ", forks_url='" + forks_url + '\'' + ", keys_url='" + keys_url + '\'' + '}';
+        private String invalidTime;
+        private String obtainTime;
+        private String code;
+        private String discountedPrice;
+        private String useAddress;
+
+        public String getInvalidTime() {
+            return invalidTime;
         }
 
-        public int getId() {
-            return id;
+        public void setInvalidTime(String invalidTime) {
+            this.invalidTime = invalidTime;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public String getObtainTime() {
+            return obtainTime;
         }
 
-        public String getNode_id() {
-            return node_id;
+        public void setObtainTime(String obtainTime) {
+            this.obtainTime = obtainTime;
         }
 
-        public void setNode_id(String node_id) {
-            this.node_id = node_id;
+        public String getCode() {
+            return code;
         }
 
-        public String getName() {
-            return name;
+        public void setCode(String code) {
+            this.code = code;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public String getDiscountedPrice() {
+            return discountedPrice;
         }
 
-        public String getFull_name() {
-            return full_name;
+        public void setDiscountedPrice(String discountedPrice) {
+            this.discountedPrice = discountedPrice;
         }
 
-        public void setFull_name(String full_name) {
-            this.full_name = full_name;
+        public String getUseAddress() {
+            return useAddress;
         }
 
-        public String getHtml_url() {
-            return html_url;
-        }
-
-        public void setHtml_url(String html_url) {
-            this.html_url = html_url;
-        }
-
-        public boolean isFork() {
-            return fork;
-        }
-
-        public void setFork(boolean fork) {
-            this.fork = fork;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getForks_url() {
-            return forks_url;
-        }
-
-        public void setForks_url(String forks_url) {
-            this.forks_url = forks_url;
-        }
-
-        public String getKeys_url() {
-            return keys_url;
-        }
-
-        public void setKeys_url(String keys_url) {
-            this.keys_url = keys_url;
+        public void setUseAddress(String useAddress) {
+            this.useAddress = useAddress;
         }
 
         @Override
@@ -167,43 +139,40 @@ public class TestActivity extends AppCompatActivity {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(this.id);
-            dest.writeString(this.node_id);
-            dest.writeString(this.name);
-            dest.writeString(this.full_name);
-            dest.writeString(this.html_url);
-            dest.writeByte(this.fork ? (byte) 1 : (byte) 0);
-            dest.writeString(this.url);
-            dest.writeString(this.forks_url);
-            dest.writeString(this.keys_url);
+            dest.writeString(this.invalidTime);
+            dest.writeString(this.obtainTime);
+            dest.writeString(this.code);
+            dest.writeString(this.discountedPrice);
+            dest.writeString(this.useAddress);
         }
 
-        public Repos() {
+        public Coupon() {
         }
 
-        protected Repos(Parcel in) {
-            this.id = in.readInt();
-            this.node_id = in.readString();
-            this.name = in.readString();
-            this.full_name = in.readString();
-            this.html_url = in.readString();
-            this.fork = in.readByte() != 0;
-            this.url = in.readString();
-            this.forks_url = in.readString();
-            this.keys_url = in.readString();
+        protected Coupon(Parcel in) {
+            this.invalidTime = in.readString();
+            this.obtainTime = in.readString();
+            this.code = in.readString();
+            this.discountedPrice = in.readString();
+            this.useAddress = in.readString();
         }
 
-        public static final Parcelable.Creator<Repos> CREATOR = new Parcelable.Creator<Repos>() {
+        public static final Parcelable.Creator<Coupon> CREATOR = new Parcelable.Creator<Coupon>() {
             @Override
-            public Repos createFromParcel(Parcel source) {
-                return new Repos(source);
+            public Coupon createFromParcel(Parcel source) {
+                return new Coupon(source);
             }
 
             @Override
-            public Repos[] newArray(int size) {
-                return new Repos[size];
+            public Coupon[] newArray(int size) {
+                return new Coupon[size];
             }
         };
+
+        @Override
+        public String toString() {
+            return "Coupon{" + "invalidTime='" + invalidTime + '\'' + ", obtainTime='" + obtainTime + '\'' + ", code='" + code + '\'' + ", discountedPrice='" + discountedPrice + '\'' + ", useAddress='" + useAddress + '\'' + '}';
+        }
     }
 }
 

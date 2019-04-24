@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewParent;
 
 import com.mainli.R;
 import com.mainli.utils.BitmapUtils;
@@ -20,6 +22,7 @@ public class MultiPointRelayView extends View {
     private Bitmap mBitmap;
     private float mOffsetX;
     private float mOffsetY;
+    private int mTouchSlop;
 
     public MultiPointRelayView(Context context) {
         super(context);
@@ -31,11 +34,13 @@ public class MultiPointRelayView extends View {
 
     {
         mBitmap = BitmapUtils.getTargetWidthBitmap(getResources(), R.mipmap.logo_square, SizeUtil.dp2PixelsInt(200));
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
     private float mOldX;
     private float mOldY;
     private int mActivePointId;
+    private boolean mIsBeingDragged;
 
     /**
      * 触摸点有(x,y,index,id)等数据
@@ -54,16 +59,46 @@ public class MultiPointRelayView extends View {
                 mActivePointId = event.getPointerId(event.getActionIndex());
                 mOldX = event.getX();
                 mOldY = event.getY();
+                mIsBeingDragged = false;
                 break;
             case MotionEvent.ACTION_MOVE:
                 int activeIndex = event.findPointerIndex(mActivePointId);
                 float x = event.getX(activeIndex);
                 float y = event.getY(activeIndex);
-                mOffsetX += x - mOldX;
-                mOffsetY += y - mOldY;
-                mOldX = x;
-                mOldY = y;
-                invalidate();
+                float offsetX = x - mOldX;
+                float offsetY = y - mOldY;
+                if (!mIsBeingDragged && (Math.abs(offsetX) > mTouchSlop || Math.abs(offsetY) > mTouchSlop)) {
+                    final ViewParent parent = getParent();
+                    if (parent != null) {
+                        parent.requestDisallowInterceptTouchEvent(true);
+                    }
+                    mIsBeingDragged = true;
+                    if (offsetX > 0) {
+                        offsetX += mTouchSlop;
+                    } else {
+                        offsetX -= mTouchSlop;
+                    }
+                }
+                if (mIsBeingDragged) {
+                    mOffsetX += offsetX;
+                    mOffsetY += offsetY;
+                    mOldX = x;
+                    mOldY = y;
+                    invalidate();
+                    if (mOffsetX < 0) {
+                        final ViewParent parent = getParent();
+                        if (parent != null) {
+                            parent.requestDisallowInterceptTouchEvent(false);
+                        }
+                        mOffsetX = 0;
+                    } else if (mOffsetX > getWidth() - mBitmap.getWidth()) {
+                        final ViewParent parent = getParent();
+                        if (parent != null) {
+                            parent.requestDisallowInterceptTouchEvent(false);
+                        }
+                        mOffsetX = getWidth() - mBitmap.getWidth();
+                    }
+                }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 activeIndex = event.getActionIndex();
@@ -92,6 +127,11 @@ public class MultiPointRelayView extends View {
                     mActivePointId = event.getPointerId(activeIndex);
                 }
                 break;
+//            case MotionEvent.ACTION_UP:
+//                if (mIsBeingDragged) {
+//
+//                }
+//                break;
         }
         return true;
     }
