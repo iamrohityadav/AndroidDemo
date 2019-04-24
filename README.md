@@ -40,17 +40,17 @@
 
 
 
-[TestActivity]:app/src/main/java/com/mainli/d/d2018/TestActivity.java
-[DiceActivity]:app/src/main/java/com/mainli/d/d2018/activity/DiceActivity.kt
-[TestPostCallMethodActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestPostCallMethodActivity.kt
-[AnimationsContainerTestActivity]:app/src/main/java/com/mainli/d/d2018/activity/AnimationsContainerTestActivity.java
-[TestAPTActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestAPTActivity.java
-[NumberCaptchaActivity]:app/src/main/java/com/mainli/d/d2018/activity/NumberCaptchaActivity.kt
-[EmojiActivity]:app/src/main/java/com/mainli/d/d2018/activity/EmojiActivity.java
-[RichMediaActivity]:app/src/main/java/com/mainli/d/d2018/activity/RichMediaActivity.java
-[TestLayoutChangeListenerActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestLayoutChangeListenerActivity.java
-[RoundActivity]:app/src/main/java/com/mainli/d/d2018/activity/RoundActivity.kt
-[TestViewPagerActivity]:app/src/main/java/com/mainli/d/d2018/activity/TestViewPagerActivity.kt
+[TestActivity]:app/src/main/java/com/mainli/TestActivity.java
+[DiceActivity]:app/src/main/java/com/mainli/activity/DiceActivity.kt
+[TestPostCallMethodActivity]:app/src/main/java/com/mainli/activity/TestPostCallMethodActivity.kt
+[AnimationsContainerTestActivity]:app/src/main/java/com/mainli/activity/AnimationsContainerTestActivity.java
+[TestAPTActivity]:app/src/main/java/com/mainli/activity/TestAPTActivity.java
+[NumberCaptchaActivity]:app/src/main/java/com/mainli/activity/NumberCaptchaActivity.kt
+[EmojiActivity]:app/src/main/java/com/mainli/activity/EmojiActivity.java
+[RichMediaActivity]:app/src/main/java/com/mainli/activity/RichMediaActivity.java
+[TestLayoutChangeListenerActivity]:app/src/main/java/com/mainli/activity/TestLayoutChangeListenerActivity.java
+[RoundActivity]:app/src/main/java/com/mainli/activity/RoundActivity.kt
+[TestViewPagerActivity]:app/src/main/java/com/mainli/activity/TestViewPagerActivity.kt
 
 
 
