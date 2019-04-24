@@ -77,12 +77,13 @@ public class MyViewPager extends ViewGroup {
                 mInterceptActionDownTime = System.currentTimeMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
+                int pointerIndex = event.findPointerIndex(mActivePointerId);
                 if (!mIsBeingDragged//未拖拽
                         && (System.currentTimeMillis() - mInterceptActionDownTime > LONG_PRESS_TIMEOUT)//长按
-                        && Math.abs(mOldX - event.getX(mActivePointerId)) > SCALED_TOUCH_SLOP) {
+                        && Math.abs(mOldX - event.getX(pointerIndex)) > SCALED_TOUCH_SLOP) {
                     getParent().requestDisallowInterceptTouchEvent(true);
                     result = true;
-                    mOldX = event.getX(mActivePointerId);
+                    mOldX = event.getX(pointerIndex);
                     currentScrollX = getScrollX();
                     mVelocityTracker.clear();
                     mIsBeingDragged = true;
