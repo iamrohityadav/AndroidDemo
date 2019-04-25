@@ -18,11 +18,11 @@ import java.security.MessageDigest;
 /**
  * Created by lixiaoliang on 2018-4-11.
  */
-public class BlurTransformation extends BitmapTransformation {
+public class BlurByRenderScriptTransformation extends BitmapTransformation {
     private float radius;
-    private static final String ID = "com.community.mm.groupchat.base.glide.BlurTransformation";
+    private static final String ID = "com.mainli.glide.BlurByRenderScriptTransformation";
 
-    public BlurTransformation(float radius) {
+    public BlurByRenderScriptTransformation(float radius) {
         this.radius = radius;
     }
 
@@ -108,10 +108,10 @@ public class BlurTransformation extends BitmapTransformation {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof BlurTransformation)) {
+        if (!(o instanceof BlurByRenderScriptTransformation)) {
             return false;
         }
-        BlurTransformation b = (BlurTransformation) o;
+        BlurByRenderScriptTransformation b = (BlurByRenderScriptTransformation) o;
         return b.radius == this.radius;
     }
 

@@ -31,7 +31,7 @@ public final class GlobalGlideExtension {
 
     @GlideOption
     @NonNull
-    public static BaseRequestOptions<?> blur(@NonNull BaseRequestOptions<?> options, float radius) {
-        return options.transform(new BlurTransformation(radius));
+    public static BaseRequestOptions<?> blurByRenderScript(@NonNull BaseRequestOptions<?> options, float radius) {
+        return options.transform(new BlurByRenderScriptTransformation(radius));
     }
 }
