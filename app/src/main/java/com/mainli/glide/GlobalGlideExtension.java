@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.bumptech.glide.annotation.GlideExtension;
 import com.bumptech.glide.annotation.GlideOption;
-import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.BaseRequestOptions;
 
 /**
  * Created by lixiaoliang on 2018-4-11.
@@ -30,7 +30,8 @@ public final class GlobalGlideExtension {
     }
 
     @GlideOption
-    public static RequestOptions blur(@NonNull RequestOptions options, float radius) {
+    @NonNull
+    public static BaseRequestOptions<?> blur(@NonNull BaseRequestOptions<?> options, float radius) {
         return options.transform(new BlurTransformation(radius));
     }
 }
