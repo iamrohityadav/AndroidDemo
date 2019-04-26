@@ -3,17 +3,17 @@
 
 |序号|名称|Demo相关Activity|备注|
 |:-:|:-:|:-:|:-:|
-|0|Test|[TestActivity][TestActivity]|预留测试
-|1|骰子DrawableDice|[DiceActivity]|微信骰子效果
-|2|onPostCreate & onPostResume|[TestPostCallMethodActivity][TestPostCallMethodActivity]|生命周期方法调用测试
-|3|帧动画优化内存|[AnimationsContainerTestActivity][AnimationsContainerTestActivity]|阿里文档中看到的[原作者][animations]
-|4|APT-Demo|[TestAPTActivity][TestAPTActivity]|使用编译时注解自动生成编译时输出的Log信息
-|5|验证码控件|[NumberCaptchaActivity][NumberCaptchaActivity]|自定义EditText实现验证码-扩展![](https://i.imgur.com/YOOqJPS.png)
-|6|Emoji输入键盘实现|[EmojiActivity][EmojiActivity]|简单实现聊天输入emoji表情![](https://i.imgur.com/LErYvTj.png)
-|7|富文本编辑|[RichMediaActivity][RichMediaActivity]<br/><br/>[实现过程分享][RichMedia]|链接输入以及转换为markdown上报服务端,以及markdown转换显示并支持点击![](https://i.imgur.com/ihaMNzQ.gif)
-|8|`ViewGroup`在指定位置添加子View(不包含`RecyclerView`等依赖`ViewHolder`的`ViewGroup`),已封装成工具类<br/>[AttachPosition.java][AttachPosition.java]|[TestLayoutChangeListenerActivity][TestLayoutChangeListenerActivity]|实现LinearLayout不同位置添加加View![](https://i.loli.net/2019/04/24/5cc021a837a15.png)
-|9|统一处理的子View圆角|[RoundActivity][RoundActivity]|动态改变View圆角,SDK>=21采用`android.view.ViewOutlineProvider`实现,小于21采用PorterDuffXfermode实现。![](https://i.loli.net/2019/04/24/5cc022efc865b.gif)<br/>真机比较流畅
-|10|自定义ViewPager练习,多点触控冲突解决|[TestViewPagerActivity][TestViewPagerActivity]|![](https://i.loli.net/2019/04/24/5cc024c4c1dab.gif)
+|0|Test|[TestActivity][TestActivity]|预留测试|
+|1|骰子DrawableDice|[DiceActivity]|微信骰子效果|
+|2|onPostCreate & onPostResume|[TestPostCallMethodActivity][TestPostCallMethodActivity]|生命周期方法调用测试|
+|3|帧动画优化内存|[AnimationsContainerTestActivity][AnimationsContainerTestActivity]|阿里文档中看到的[原作者][animations]|
+|4|APT-Demo|[TestAPTActivity][TestAPTActivity]|使用编译时注解自动生成编译时输出的Log信息|
+|5|验证码控件|[NumberCaptchaActivity][NumberCaptchaActivity]|自定义EditText实现验证码-扩展![](https://i.imgur.com/YOOqJPS.png)|
+|6|Emoji输入键盘实现|[EmojiActivity][EmojiActivity]|简单实现聊天输入emoji表情![](https://i.imgur.com/LErYvTj.png)|
+|7|富文本编辑|[RichMediaActivity][RichMediaActivity]<br/><br/>[实现过程分享][RichMedia]|链接输入以及转换为markdown上报服务端,以及markdown转换显示并支持点击![](https://i.imgur.com/ihaMNzQ.gif)|
+|8|`ViewGroup`在指定位置添加子View(不包含`RecyclerView`等依赖`ViewHolder`的`ViewGroup`),已封装成工具类<br/>[AttachPosition.java][AttachPosition.java]|[TestLayoutChangeListenerActivity][TestLayoutChangeListenerActivity]|实现LinearLayout不同位置添加加View![](https://i.loli.net/2019/04/24/5cc021a837a15.png)|
+|9|统一处理的子View圆角|[RoundActivity][RoundActivity]|动态改变View圆角,SDK>=21采用`android.view.ViewOutlineProvider`实现,小于21采用PorterDuffXfermode实现。![](https://i.loli.net/2019/04/24/5cc022efc865b.gif)<br/>真机比较流畅|
+|10|自定义ViewPager练习,多点触控冲突解决|[TestViewPagerActivity][TestViewPagerActivity]|![](https://i.loli.net/2019/04/24/5cc024c4c1dab.gif)|
 
 ---------------------------------------------
 ## :blush:**分享**
