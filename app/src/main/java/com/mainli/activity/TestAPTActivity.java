@@ -25,7 +25,7 @@ public class TestAPTActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TextView textView = new TextView(this);
-//        textView.setText(com.mainli.processor.Log.log);
+        textView.setText(com.mainli.processor.Log.log);
         setContentView(textView);
     }
 }

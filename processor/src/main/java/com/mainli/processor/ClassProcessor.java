@@ -1,6 +1,5 @@
 package com.mainli.processor;
 
-import com.google.auto.service.AutoService;
 import com.mainli.annotations.BindView;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -15,9 +14,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -25,8 +22,9 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 
-@AutoService(Processor.class)
+//@AutoService(Processor.class)
 public class ClassProcessor extends AbstractProcessor {
     /**
      * 被注解处理工具调用
@@ -49,8 +47,7 @@ public class ClassProcessor extends AbstractProcessor {
      */
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-
-        Messager messager = processingEnv.getMessager();
+        System.out.println("*******************************************************ClassProcessor.process11111111");
         for (Element element : roundEnv.getElementsAnnotatedWith(BindView.class)) {
             if (element.getKind() == ElementKind.FIELD) {
                 //获取父类元素
@@ -70,6 +67,7 @@ public class ClassProcessor extends AbstractProcessor {
             try {
                 javaFile.writeTo(processingEnv.getFiler());
             } catch (IOException e) {
+                System.out.println("*******************************************************ClassProcessor.process");
                 e.printStackTrace();
             }
             writeLog(javaFile.toString());
@@ -105,6 +103,7 @@ public class ClassProcessor extends AbstractProcessor {
      */
     public void print(String msg) {
         mLog.append(msg).append("\n\n\r");
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,msg);
     }
 
     final String LOG_PATH = new File(".").getPath();
