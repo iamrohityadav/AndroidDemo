@@ -3,7 +3,7 @@ package com.mainli.utils;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 public final class BitmapUtils {
     private BitmapUtils() {

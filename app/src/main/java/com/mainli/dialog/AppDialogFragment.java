@@ -6,18 +6,18 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 import com.mainli.BuildConfig;
 import com.mainli.R;
-import com.mainli.dialog.DefaultDialogButtonType;
 
 /**
  * Created by lixiaoliang on 2018-3-29.
@@ -78,7 +77,7 @@ public final class AppDialogFragment extends DialogFragment implements View.OnCl
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, R.style.AppDialog);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppDialog);
         super.onCreate(savedInstanceState);
     }
 

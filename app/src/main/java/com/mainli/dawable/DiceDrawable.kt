@@ -3,7 +3,7 @@ package com.mainli.dawable
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.widget.ImageView
 import com.mainli.R
 

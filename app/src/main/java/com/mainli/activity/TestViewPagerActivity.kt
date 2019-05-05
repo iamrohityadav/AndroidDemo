@@ -1,7 +1,7 @@
 package com.mainli.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.mainli.R
 import com.seekting.demo_lib.Demo
 

@@ -3,7 +3,7 @@ package com.mainli.xscan;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Looper;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.widget.Toast;
 
 /**

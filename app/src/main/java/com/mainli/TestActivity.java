@@ -3,9 +3,7 @@ package com.mainli;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Keep;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.protobuf.ByteString;
@@ -15,8 +13,13 @@ import com.seekting.demo_lib.Demo;
 import com.tencent.mmkv.MMKV;
 
 import java.io.IOException;
+import java.net.Proxy;
 import java.util.List;
 
+import androidx.annotation.Keep;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -53,14 +56,16 @@ public class TestActivity extends AppCompatActivity {
 
     private void testNetwork() {
         final MMKV sharedP = MMKV.mmkvWithID("TestActivity", MMKV.SINGLE_PROCESS_MODE, "qwqweqwe");
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder().proxy(Proxy.NO_PROXY).build();//添加Proxy.NO_PROXY Charles没法走代理抓包了
         Retrofit retrofit = new Retrofit.Builder()//
                 .addConverterFactory(GsonConverterFactory.create())//
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
                 .baseUrl("https://www.wanandroid.com/")//
+                .client(okHttpClient)
                 .build();
         GitHubService service = retrofit.create(GitHubService.class);
         service.getCoupon().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(coupons -> {
-            L.d("Mainli", coupons.toString());
+            Log.d("Mainli", coupons.toString());
             sharedP.encode("coupon", coupons.get(0));
         }, new Action1<Throwable>() {
             @Override

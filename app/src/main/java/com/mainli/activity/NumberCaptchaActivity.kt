@@ -3,7 +3,7 @@ package com.mainli.activity
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.mainli.R
 import com.mainli.view.NumberCaptchaInputView

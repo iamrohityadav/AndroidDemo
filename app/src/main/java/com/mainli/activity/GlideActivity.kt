@@ -2,8 +2,8 @@ package com.mainli.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.AppCompatImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import android.util.AttributeSet
 import com.mainli.R
 import com.mainli.glide.GlideApp

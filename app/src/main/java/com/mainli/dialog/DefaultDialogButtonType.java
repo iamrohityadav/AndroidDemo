@@ -1,6 +1,6 @@
 package com.mainli.dialog;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 @IntDef({DefaultDialogButtonType.FIRST_BUTTON, DefaultDialogButtonType.SECOND_BUTTON, DefaultDialogButtonType.THIRD_BUTTON})
     public @interface DefaultDialogButtonType {

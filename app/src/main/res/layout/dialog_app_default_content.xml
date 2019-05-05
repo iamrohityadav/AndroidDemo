@@ -7,7 +7,7 @@
     tools:background="#80000000"
     tools:layout_height="match_parent">
 
-    <android.support.v7.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -18,7 +18,7 @@
         android:padding="24dp"
         tools:layout_gravity="center">
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/dialog_title_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 tools:text="更换已绑定的手机号"
                 tools:visibility="visible"/>
 
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
             android:id="@+id/dialog_message"
@@ -59,7 +59,7 @@
             tools:text="当前绑定的手机号为150****5678。"
             tools:visibility="visible"/>
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/dialog_btn_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,6 +120,6 @@
                 android:visibility="gone"
                 tools:text="OK"
                 tools:visibility="visible"/>
-        </android.support.v7.widget.LinearLayoutCompat>
-    </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>
