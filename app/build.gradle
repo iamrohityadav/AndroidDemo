@@ -33,6 +33,11 @@ android {
         ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64', 'x86', 'x86_64'
         }
+
+        defaultConfig {
+            resConfigs "zh"
+        }
+
         signingConfig signingConfigs.signing
     }
 
@@ -115,7 +120,7 @@ dependencies {
         exclude group: 'io.reactivex'
     }
     implementation 'com.google.protobuf:protobuf-lite:3.0.1'
-    implementation ('com.squareup.retrofit2:converter-protobuf:2.5.0') {
+    implementation('com.squareup.retrofit2:converter-protobuf:2.5.0') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
 }
@@ -136,7 +141,6 @@ protobuf {
         }
     }
 }
-
 
 
 //详细文档 https://github.com/shwenzhang/AndResGuard/blob/master/doc/how_to_work.zh-cn.md
