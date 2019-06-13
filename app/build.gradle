@@ -31,7 +31,7 @@ android {
 //            }
 //        }
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64', 'x86', 'x86_64'
+            abiFilters  'armeabi-v7a'
         }
 
         defaultConfig {
@@ -109,6 +109,7 @@ dependencies {
         implementation project(':log')
         implementation project(':xscan')
     }
+    implementation("$GROUP:flutter:1.0")
     //----------第三方库----------------------------------------------------------------------------------------------------------
     //基于Rx1.6.1 RxAndroid1.2.1合成
     implementation project(':rxlib')
@@ -123,6 +124,7 @@ dependencies {
     implementation('com.squareup.retrofit2:converter-protobuf:2.5.0') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
+//    implementation project(':flutter')
 }
 protobuf {
     protoc {

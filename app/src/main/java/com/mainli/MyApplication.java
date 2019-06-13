@@ -11,6 +11,8 @@ import com.tencent.mmkv.MMKV;
 
 import java.io.File;
 
+import io.flutter.facade.Flutter;
+
 
 /**
  * Application基类
@@ -22,6 +24,7 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
+        Flutter.startInitialization(this);
         super.onCreate();
         DemoLib.init(this);
         MyApplication.mContext = getApplicationContext();

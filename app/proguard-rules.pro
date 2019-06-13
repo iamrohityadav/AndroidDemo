@@ -66,4 +66,8 @@
 }
 #EventBus - END
 
+#flutter
+-keep class io.flutter.** {*;}
+-dontwarn io.flutter.**
+
 
