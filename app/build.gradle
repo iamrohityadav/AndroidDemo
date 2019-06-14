@@ -109,7 +109,13 @@ dependencies {
         implementation project(':log')
         implementation project(':xscan')
     }
-    implementation("$GROUP:flutter:1.0")
+
+    if (Boolean.parseBoolean(USER_FLUTTER_AAR)) {
+        implementation("$GROUP:flutter:1.0")
+    } else {
+        implementation project(':flutter')
+    }
+
     //----------第三方库----------------------------------------------------------------------------------------------------------
     //基于Rx1.6.1 RxAndroid1.2.1合成
     implementation project(':rxlib')
@@ -124,7 +130,6 @@ dependencies {
     implementation('com.squareup.retrofit2:converter-protobuf:2.5.0') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
-//    implementation project(':flutter')
 }
 protobuf {
     protoc {
