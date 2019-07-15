@@ -12,15 +12,16 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.mainli.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 /**
  * 用于使子视图圆角,子View必须撑满该View否则效果缺失
@@ -92,6 +93,8 @@ public class RoundFrameLayout extends FrameLayout {
             mPath = new Path();
             mRectF = new RectF(0, 0, w, h);
             setMask(mPath, mRectF, radius);
+            setWillNotDraw(true);
+            setBackground(null);
         }
     }
 
