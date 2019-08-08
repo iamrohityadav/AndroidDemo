@@ -3,7 +3,6 @@ package com.mainli.view.MultiPointTouch;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +13,8 @@ import com.mainli.R;
 import com.mainli.utils.BitmapUtils;
 import com.mainli.utils.SizeUtil;
 
+import androidx.annotation.Nullable;
+
 /**
  * 多点触控之接替滑动
  */
@@ -23,6 +24,8 @@ public class MultiPointRelayView extends View {
     private float mOffsetX;
     private float mOffsetY;
     private int mTouchSlop;
+    private byte isfinish = 0;
+    private OnViewTouchFinish mFinish;
 
     public MultiPointRelayView(Context context) {
         super(context);
@@ -60,6 +63,7 @@ public class MultiPointRelayView extends View {
                 mOldX = event.getX();
                 mOldY = event.getY();
                 mIsBeingDragged = false;
+                isfinish = 0;
                 break;
             case MotionEvent.ACTION_MOVE:
                 int activeIndex = event.findPointerIndex(mActivePointId);
@@ -79,6 +83,7 @@ public class MultiPointRelayView extends View {
                         offsetX -= mTouchSlop;
                     }
                 }
+                isfinish = 0;
                 if (mIsBeingDragged) {
                     mOffsetX += offsetX;
                     mOffsetY += offsetY;
@@ -91,12 +96,14 @@ public class MultiPointRelayView extends View {
                             parent.requestDisallowInterceptTouchEvent(false);
                         }
                         mOffsetX = 0;
+                        mFinish.isTouchFinish(-1);
                     } else if (mOffsetX > getWidth() - mBitmap.getWidth()) {
                         final ViewParent parent = getParent();
                         if (parent != null) {
                             parent.requestDisallowInterceptTouchEvent(false);
                         }
                         mOffsetX = getWidth() - mBitmap.getWidth();
+                        mFinish.isTouchFinish(1);
                     }
                 }
                 break;
@@ -137,8 +144,20 @@ public class MultiPointRelayView extends View {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        ViewParent parent = getParent();
+        mFinish = (OnViewTouchFinish) parent.getParent();
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(mBitmap, mOffsetX, mOffsetY, null);
     }
+
+    public interface OnViewTouchFinish {
+        boolean isTouchFinish(int direction);
+    }
+
 }

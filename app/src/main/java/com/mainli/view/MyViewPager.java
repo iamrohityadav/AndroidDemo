@@ -2,23 +2,28 @@ package com.mainli.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.OverScroller;
+
+import com.mainli.view.MultiPointTouch.MultiPointRelayView;
 
 /**
  * 练习ViewGroup滑动与多点触控
  */
-public class MyViewPager extends ViewGroup {
+public class MyViewPager extends ViewGroup implements MultiPointRelayView.OnViewTouchFinish {
 
     private final int SCALED_TOUCH_SLOP;
     private final int MIN_FLING_VELOCITY;
     private final int MAX_FLING_VELOCITY;
     private final int LONG_PRESS_TIMEOUT;
     private int mActivePointerId;
+    private int mViewTouchFinishPagesIndex = 1;
 
     public MyViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -160,6 +165,7 @@ public class MyViewPager extends ViewGroup {
         mActivePointerId = event.getPointerId(index);
         currentScrollX = getScrollX();
     }
+
     private void onSecondaryPointerUp(MotionEvent event) {
         int activeIndex;
         activeIndex = event.getActionIndex();
@@ -222,5 +228,53 @@ public class MyViewPager extends ViewGroup {
         } else {
             return centerIndex;
         }
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                mOldX = event.getX();
+                direction = 0;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int pointerIndex = event.findPointerIndex(mActivePointerId);
+                float x = event.getX(pointerIndex);
+                int currentDirection = (int) (mOldX - x);
+                if (direction != 0 && isDirectionEqual(direction, currentDirection) && Math.abs(getScrollX() - pageLefts[mViewTouchFinishPagesIndex]) < SCALED_TOUCH_SLOP) {
+                    direction = 0;
+                    mIsBeingDragged = false;
+                    final ViewParent parent = getParent();
+                    if (parent != null) {
+                        parent.requestDisallowInterceptTouchEvent(true);
+                    }
+                    mOldX = pageLefts[mViewTouchFinishPagesIndex];
+                    scrollTo(pageLefts[mViewTouchFinishPagesIndex],0);
+                    event.setAction(MotionEvent.ACTION_CANCEL);
+                    MotionEvent ev2 = MotionEvent.obtain(event);
+                    dispatchTouchEvent(event);
+                    ev2.setAction(MotionEvent.ACTION_DOWN);
+                    return dispatchTouchEvent(ev2);
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    private boolean isDirectionEqual(int pointerIndex, int x) {
+        if ((pointerIndex > 0 && x > 0) || (pointerIndex < 0 && x < 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    int direction = 0;
+
+    @Override
+    public boolean isTouchFinish(int direction) {
+        this.direction = direction;
+        Log.d("Mainli", "direction:" + direction);
+        return false;
     }
 }
