@@ -2,21 +2,21 @@ package com.mainli.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.OverScroller;
 
-import com.mainli.view.MultiPointTouch.MultiPointRelayView;
+import androidx.annotation.NonNull;
+import androidx.core.view.NestedScrollingParent;
+import androidx.core.view.ViewCompat;
 
 /**
  * 练习ViewGroup滑动与多点触控
  */
-public class MyViewPager extends ViewGroup implements MultiPointRelayView.OnViewTouchFinish {
+public class MyViewPager extends ViewGroup implements NestedScrollingParent {
 
     private final int SCALED_TOUCH_SLOP;
     private final int MIN_FLING_VELOCITY;
@@ -230,51 +230,51 @@ public class MyViewPager extends ViewGroup implements MultiPointRelayView.OnView
         }
     }
 
+    //--------嵌套滚动------------------------------------------
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                mOldX = event.getX();
-                direction = 0;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int pointerIndex = event.findPointerIndex(mActivePointerId);
-                float x = event.getX(pointerIndex);
-                int currentDirection = (int) (mOldX - x);
-                if (direction != 0 && isDirectionEqual(direction, currentDirection) && Math.abs(getScrollX() - pageLefts[mViewTouchFinishPagesIndex]) < SCALED_TOUCH_SLOP) {
-                    direction = 0;
-                    mIsBeingDragged = false;
-                    final ViewParent parent = getParent();
-                    if (parent != null) {
-                        parent.requestDisallowInterceptTouchEvent(true);
-                    }
-                    mOldX = pageLefts[mViewTouchFinishPagesIndex];
-                    scrollTo(pageLefts[mViewTouchFinishPagesIndex],0);
-                    event.setAction(MotionEvent.ACTION_CANCEL);
-                    MotionEvent ev2 = MotionEvent.obtain(event);
-                    dispatchTouchEvent(event);
-                    ev2.setAction(MotionEvent.ACTION_DOWN);
-                    return dispatchTouchEvent(ev2);
-                }
-                break;
-        }
-        return super.dispatchTouchEvent(event);
+    public boolean onStartNestedScroll(@NonNull View child, @NonNull View target, int axes) {
+        return (axes & ViewCompat.SCROLL_AXIS_HORIZONTAL) != 0;
     }
 
-    private boolean isDirectionEqual(int pointerIndex, int x) {
-        if ((pointerIndex > 0 && x > 0) || (pointerIndex < 0 && x < 0)) {
-            return true;
-        }
-        return false;
-    }
-
-    int direction = 0;
+    private int nestedBeingDragged = 0;
+    private int startNestedBeingDragged = 0;//防止计算偏差1像素问题记录开始位置
 
     @Override
-    public boolean isTouchFinish(int direction) {
-        this.direction = direction;
-        Log.d("Mainli", "direction:" + direction);
-        return false;
+    public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+        super.onNestedPreScroll(target, dx, dy, consumed);
+        if (nestedBeingDragged > 0 && dx < 0 || nestedBeingDragged < 0 && dx > 0) {
+            if (Math.abs(nestedBeingDragged) > Math.abs(dx)) {
+                consumed[0] = dx;
+                nestedBeingDragged += dx;
+                setScrollX(getScrollX() - dx);
+            } else {
+                consumed[0] = nestedBeingDragged;
+                nestedBeingDragged = 0;
+                setScrollX(startNestedBeingDragged);
+            }
+
+        }
     }
+
+    @Override
+    public void onNestedScroll(@NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumedView) {
+        if (dxUnconsumed != 0) {
+            int scrollX = getScrollX();
+            setScrollX(scrollX - dxUnconsumed);
+            nestedBeingDragged += dxUnconsumed;
+            if (startNestedBeingDragged == 0) {
+                startNestedBeingDragged = scrollX;
+            }
+        }
+    }
+
+    @Override
+    public void onStopNestedScroll(@NonNull View targetView) {
+        nestedBeingDragged = 0;
+        startNestedBeingDragged = 0;
+        endTouchEventScrollTargetPager(getScrollX(), 0);
+    }
+
+
 }
