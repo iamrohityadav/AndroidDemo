@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -16,7 +15,7 @@ import com.mainli.utils.SizeUtil;
 
 import androidx.annotation.Nullable;
 import androidx.core.view.NestedScrollingChild;
-import androidx.core.view.NestedScrollingParent;
+import androidx.core.view.NestedScrollingChildHelper;
 import androidx.core.view.ViewCompat;
 
 /**
@@ -26,12 +25,13 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
 
 
     private Bitmap mBitmap;
-    private float mOffsetX;
-    private float mOffsetY;
+    private int mOffsetX;
+    private int mOffsetY;
     private int mTouchSlop;
     //父View提前消费
-    int[] mScrollConsumed = new int[2];
-    int[] mTempNestedScrollConsumed = new int[2];
+    private final int[] mScrollConsumed = new int[2];
+    private final int[] mScrollOffset = new int[2];
+    private final NestedScrollingChildHelper mChildHelper;
 
     public MultiPointRelayView(Context context) {
         super(context);
@@ -39,15 +39,18 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
 
     public MultiPointRelayView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
     }
 
     {
+        mChildHelper = new NestedScrollingChildHelper(this);
+        mChildHelper.setNestedScrollingEnabled(true);
         mBitmap = BitmapUtils.getTargetWidthBitmap(getResources(), R.mipmap.logo_square, SizeUtil.dp2PixelsInt(200));
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
-    private float mOldX;
-    private float mOldY;
+    private int mOldX;
+    private int mOldY;
     private int mActivePointId;
     private boolean mIsBeingDragged;
 
@@ -66,24 +69,24 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mActivePointId = event.getPointerId(event.getActionIndex());
-                mOldX = event.getX();
-                mOldY = event.getY();
+                mOldX = (int) event.getX();
+                mOldY = (int) event.getY();
                 mIsBeingDragged = false;
                 startNestedScroll(ViewCompat.SCROLL_AXIS_HORIZONTAL | ViewCompat.SCROLL_AXIS_VERTICAL);
                 break;
             case MotionEvent.ACTION_MOVE:
                 int activeIndex = event.findPointerIndex(mActivePointId);
-                float x = event.getX(activeIndex);
-                float y = event.getY(activeIndex);
-                float offsetX = x - mOldX;
-                float offsetY = y - mOldY;
+                int x = (int) event.getX(activeIndex);
+                int y = (int) event.getY(activeIndex);
+                int offsetX = x - mOldX;
+                int offsetY = y - mOldY;
                 //消耗触摸前分发
-                if (dispatchNestedPreScroll((int) offsetX, (int) offsetX, mScrollConsumed, null)) {
+                if (dispatchNestedPreScroll(offsetX, offsetX, mScrollConsumed, mScrollOffset)) {
                     offsetX -= mScrollConsumed[0];
                     offsetX -= mScrollConsumed[1];
-//                    event.offsetLocation(mScrollOffset[0], mScrollOffset[1]);
-                }
+                    event.offsetLocation(mScrollOffset[0], mScrollOffset[1]);
 
+                }
                 if (!mIsBeingDragged && (Math.abs(offsetX) > mTouchSlop || Math.abs(offsetY) > mTouchSlop)) {
                     final ViewParent parent = getParent();
                     if (parent != null) {
@@ -91,34 +94,36 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
                     }
                     mIsBeingDragged = true;
                     if (offsetX > 0) {
-                        offsetX += mTouchSlop;
-                    } else {
                         offsetX -= mTouchSlop;
+                    } else {
+                        offsetX += mTouchSlop;
                     }
                 }
                 if (mIsBeingDragged) {
+                    offsetX += mScrollOffset[0];
+                    offsetY += mScrollOffset[1];
                     //消耗触摸后分发
-                    float tmpX = mOffsetX + offsetX;
+                    int tmpX = mOffsetX + offsetX;
                     mOldX = x;
                     mOldY = y;
 
-                    float unconsumedX = 0, unconsumedY = 0;
-                    float consumedX = 0, consumedY = 0;
+                    int unconsumedX = 0, unconsumedY = 0;
+                    int consumedX = 0, consumedY = 0;
 
                     invalidate();
                     if (tmpX < 0) {
                         consumedX = -mOffsetX;
                         unconsumedX = offsetX + mOffsetX;
                     } else if (tmpX > getWidth() - mBitmap.getWidth()) {
-                        unconsumedX = (int) (tmpX - (getWidth() - mBitmap.getWidth()));
-                        consumedX = (int) (offsetX - unconsumedX);
+                        unconsumedX = (tmpX - (getWidth() - mBitmap.getWidth()));
+                        consumedX = (offsetX - unconsumedX);
                     } else {
-                        consumedX = (int) offsetX;
+                        consumedX = offsetX;
                         unconsumedX = 0;
                     }
-                    consumedY = (int) offsetY;
+                    consumedY = offsetY;
                     unconsumedY = 0;
-                    dispatchNestedScroll((int) consumedX, (int) consumedY, (int) unconsumedX, (int) unconsumedY, null);
+                    dispatchNestedScroll(consumedX, consumedY, unconsumedX, unconsumedY, mScrollOffset);
                     mOffsetX += consumedX;
                     mOffsetY += consumedY;
                 }
@@ -126,8 +131,8 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
             case MotionEvent.ACTION_POINTER_DOWN:
                 activeIndex = event.getActionIndex();
                 mActivePointId = event.getPointerId(activeIndex);
-                mOldX = event.getX(activeIndex);
-                mOldY = event.getY(activeIndex);
+                mOldX = (int) event.getX(activeIndex);
+                mOldY = (int) event.getY(activeIndex);
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 activeIndex = event.getActionIndex();
@@ -145,13 +150,15 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
                     } else {
                         activeIndex = event.getPointerCount() - 1;
                     }
-                    mOldX = event.getX(activeIndex);
-                    mOldY = event.getY(activeIndex);
+                    mOldX = (int) event.getX(activeIndex);
+                    mOldY = (int) event.getY(activeIndex);
                     mActivePointId = event.getPointerId(activeIndex);
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 stopNestedScroll();
+                mScrollOffset[0] = 0;
+                mScrollOffset[1] = 0;
                 break;
         }
         return true;
@@ -164,138 +171,51 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
     }
 
     //---------------------嵌套滚动-----------------------------------------------
-    private boolean isNestedScrollingEnabled = true;
 
     @Override
     public void setNestedScrollingEnabled(boolean enabled) {
-        isNestedScrollingEnabled = enabled;
+        mChildHelper.setNestedScrollingEnabled(enabled);
     }
 
     @Override
     public boolean isNestedScrollingEnabled() {
-        return isNestedScrollingEnabled;
+        return mChildHelper.isNestedScrollingEnabled();
     }
-
-    private NestedScrollingParent mNestedScrollingParent;
 
     @Override
     public boolean startNestedScroll(int axes) {
-        if (hasNestedScrollingParent()) {
-            // Already in progress
-            return true;
-        }
-        if (isNestedScrollingEnabled()) {
-            ViewParent p = getParent();
-            View child = this;
-            while (p != null) {
-                try {
-                    if (p instanceof NestedScrollingParent) {
-                        NestedScrollingParent parent = (NestedScrollingParent) p;
-                        if (parent.onStartNestedScroll(child, this, axes)) {
-                            mNestedScrollingParent = parent;
-                            parent.onNestedScrollAccepted(child, this, axes);
-                            return true;
-                        }
-                    }
-                } catch (AbstractMethodError e) {
-                    Log.e(VIEW_LOG_TAG, "ViewParent " + p + " does not implement interface " + "method onStartNestedScroll", e);
-                    // Allow the search upward to continue
-                }
-                if (p instanceof View) {
-                    child = (View) p;
-                }
-                p = p.getParent();
-            }
-        }
-
-        return false;
+        return mChildHelper.startNestedScroll(axes);
     }
 
 
     @Override
     public void stopNestedScroll() {
-        if (mNestedScrollingParent != null) {
-            mNestedScrollingParent.onStopNestedScroll(this);
-            mNestedScrollingParent = null;
-        }
+        mChildHelper.stopNestedScroll();
     }
 
 
     @Override
     public boolean hasNestedScrollingParent() {
-        return mNestedScrollingParent != null;
+        return mChildHelper.hasNestedScrollingParent();
     }
 
     @Override
     public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, @Nullable int[] offsetInWindow) {
-        if (isNestedScrollingEnabled() && mNestedScrollingParent != null) {
-            if (dxConsumed != 0 || dyConsumed != 0 || dxUnconsumed != 0 || dyUnconsumed != 0) {
-                int startX = 0;
-                int startY = 0;
-                if (offsetInWindow != null) {
-                    getLocationInWindow(offsetInWindow);
-                    startX = offsetInWindow[0];
-                    startY = offsetInWindow[1];
-                }
-                mNestedScrollingParent.onNestedScroll(this, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-                if (offsetInWindow != null) {
-                    getLocationInWindow(offsetInWindow);
-                    offsetInWindow[0] -= startX;
-                    offsetInWindow[1] -= startY;
-                }
-                return true;
-            } else if (offsetInWindow != null) {
-                // No motion, no dispatch. Keep offsetInWindow up to date.
-                offsetInWindow[0] = 0;
-                offsetInWindow[1] = 0;
-            }
-        }
-        return false;
+        return mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 
     @Override
     public boolean dispatchNestedPreScroll(int dx, int dy, @Nullable int[] consumed, @Nullable int[] offsetInWindow) {
-        if (isNestedScrollingEnabled() && mNestedScrollingParent != null) {
-            if (dx != 0 || dy != 0) {
-                int startX = 0;
-                int startY = 0;
-                if (offsetInWindow != null) {
-                    getLocationInWindow(offsetInWindow);
-                    startX = offsetInWindow[0];
-                    startY = offsetInWindow[1];
-                }
-
-                if (consumed == null) {
-                    if (mTempNestedScrollConsumed == null) {
-                        mTempNestedScrollConsumed = new int[2];
-                    }
-                    consumed = mTempNestedScrollConsumed;
-                }
-                consumed[0] = 0;
-                consumed[1] = 0;
-                mNestedScrollingParent.onNestedPreScroll(this, dx, dy, consumed);
-
-                if (offsetInWindow != null) {
-                    getLocationInWindow(offsetInWindow);
-                    offsetInWindow[0] -= startX;
-                    offsetInWindow[1] -= startY;
-                }
-                return consumed[0] != 0 || consumed[1] != 0;
-            } else if (offsetInWindow != null) {
-                offsetInWindow[0] = 0;
-                offsetInWindow[1] = 0;
-            }
-        }
-        return false;
+        return mChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow);
     }
 
-//    @Override
-//    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
-//        return false;
-//    }
+    @Override
+    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
+        return mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed);
+    }
+
+    @Override
+    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
+        return mChildHelper.dispatchNestedPreFling(velocityX, velocityY);
+    }
 }
