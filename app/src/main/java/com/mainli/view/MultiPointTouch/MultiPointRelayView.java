@@ -104,13 +104,9 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
                     offsetY += mScrollOffset[1];
                     //消耗触摸后分发
                     int tmpX = mOffsetX + offsetX;
-                    mOldX = x;
-                    mOldY = y;
-
                     int unconsumedX = 0, unconsumedY = 0;
                     int consumedX = 0, consumedY = 0;
 
-                    invalidate();
                     if (tmpX < 0) {
                         consumedX = -mOffsetX;
                         unconsumedX = offsetX + mOffsetX;
@@ -126,6 +122,9 @@ public class MultiPointRelayView extends View implements NestedScrollingChild {
                     dispatchNestedScroll(consumedX, consumedY, unconsumedX, unconsumedY, mScrollOffset);
                     mOffsetX += consumedX;
                     mOffsetY += consumedY;
+                    mOldX = x - mScrollOffset[0];
+                    mOldY = y - mScrollOffset[1];
+                    invalidate();
                 }
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:

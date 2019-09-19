@@ -5,10 +5,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.protobuf.ByteString;
 import com.mainli.log.L;
 import com.mainli.proto.LoginInfo;
+import com.mainli.view.turntable.TurntableBackgroundView;
+import com.mainli.view.turntable.TurntableView;
 import com.seekting.demo_lib.Demo;
 import com.tencent.mmkv.MMKV;
 
@@ -37,10 +40,36 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final TextView view = new TextView(this);
-        setContentView(view);
-        testNetwork();
-        testGoogleProtocolBuffer(view);
+//        final CountDownTextView view = new CountDownTextView(this);
+//        view.setText("10:11:12");
+//        view.setTextColor(Color.WHITE);
+//        view.setBackgroundColor(0xff1DA7DF);
+        setContentView(R.layout.turntable);
+        TurntableView turntableView = findViewById(R.id.turntable_view);
+        turntableView.setLuckySpinListener(new TurntableBackgroundView.LuckySpinListener() {
+            @Override
+            public void onLuckyStart(boolean isStart) {
+                turntableView.playWelcomeAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(TestActivity.this, "hehe", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onLuckyEnd(int flag) {
+
+            }
+        });
+        turntableView.playWelcomeAnimation(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(TestActivity.this, "hehe", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        testNetwork();
+//        testGoogleProtocolBuffer(view);
     }
 
     private void testGoogleProtocolBuffer(TextView view) {
@@ -61,8 +90,7 @@ public class TestActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())//
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//
                 .baseUrl("https://www.wanandroid.com/")//
-                .client(okHttpClient)
-                .build();
+                .client(okHttpClient).build();
         GitHubService service = retrofit.create(GitHubService.class);
         service.getCoupon().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(coupons -> {
             Log.d("Mainli", coupons.toString());

@@ -3,8 +3,18 @@ package com.mainli.utils;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import androidx.annotation.DrawableRes;
 
+/**
+ * BitmapFactory.decodeResource占用内存 = 图片宽度/inSampleSize*inTargetDensity/inDensity*图片高度/inSampleSize**inTargetDensity/inDensity*每个像素所占的内存
+ * <p>
+ * 格式           位数   占用内存字节
+ * ALPHA_8  	  8	        1
+ * RGB_565  	  16	    2
+ * ARGB_4444	  16	    2
+ * ARGB_8888	  32	    4
+ */
 public final class BitmapUtils {
     private BitmapUtils() {
     }
