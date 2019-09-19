@@ -4,14 +4,19 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.Keep;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.protobuf.ByteString;
 import com.mainli.log.L;
 import com.mainli.proto.LoginInfo;
-import com.mainli.view.turntable.TurntableBackgroundView;
-import com.mainli.view.turntable.TurntableView;
+import com.mainli.utils.SizeUtil;
+import com.mainli.view.turntable.TurntableEntranceAnimationView;
 import com.seekting.demo_lib.Demo;
 import com.tencent.mmkv.MMKV;
 
@@ -19,9 +24,6 @@ import java.io.IOException;
 import java.net.Proxy;
 import java.util.List;
 
-import androidx.annotation.Keep;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -44,30 +46,35 @@ public class TestActivity extends AppCompatActivity {
 //        view.setText("10:11:12");
 //        view.setTextColor(Color.WHITE);
 //        view.setBackgroundColor(0xff1DA7DF);
-        setContentView(R.layout.turntable);
-        TurntableView turntableView = findViewById(R.id.turntable_view);
-        turntableView.setLuckySpinListener(new TurntableBackgroundView.LuckySpinListener() {
-            @Override
-            public void onLuckyStart(boolean isStart) {
-                turntableView.playWelcomeAnimation(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(TestActivity.this, "hehe", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onLuckyEnd(int flag) {
-
-            }
-        });
-        turntableView.playWelcomeAnimation(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(TestActivity.this, "hehe", Toast.LENGTH_SHORT).show();
-            }
-        });
+        int width = SizeUtil.dp2PixelsInt(64);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, width);
+        params.gravity = Gravity.CENTER;
+        TurntableEntranceAnimationView view = new TurntableEntranceAnimationView(this);
+        setContentView(view, params);
+        view.playAnimation();
+//        TurntableView turntableView = findViewById(R.id.turntable_view);
+//        turntableView.setLuckySpinListener(new TurntableBackgroundView.LuckySpinListener() {
+//            @Override
+//            public void onLuckyStart(boolean isStart) {
+//                turntableView.playWelcomeAnimation(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(TestActivity.this, "hehe", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onLuckyEnd(int flag) {
+//
+//            }
+//        });
+//        turntableView.playWelcomeAnimation(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast.makeText(TestActivity.this, "hehe", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 //        testNetwork();
 //        testGoogleProtocolBuffer(view);
     }
