@@ -6,10 +6,11 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.annotation.RequiresApi;
 
 /**
  * 通过draw前后去变动图片绘制
@@ -24,6 +25,9 @@ public class ConversDrawable extends Drawable {
         return this;
     }
 
+    /**
+     * 如果是阿拉伯,请直接使用Drawable的setAutoMirrored方法设置true{@link #setAutoMirrored(boolean)}
+     */
     public ConversDrawable lRConvers() {
         this.conversConfig = new ConversConfig() {
             @Override
@@ -95,24 +99,28 @@ public class ConversDrawable extends Drawable {
         mBase.setFilterBitmap(filter);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setHotspot(float x, float y) {
-        DrawableCompat.setHotspot(mBase, x, y);
+        mBase.setHotspot(x, y);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTint(int tintColor) {
-        DrawableCompat.setTint(mBase, tintColor);
+        mBase.setTint(tintColor);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTintList(@Nullable ColorStateList tint) {
-        DrawableCompat.setTintList(mBase, tint);
+        mBase.setTintList(tint);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTintMode(@NonNull PorterDuff.Mode tintMode) {
-        DrawableCompat.setTintMode(mBase, tintMode);
+        mBase.setTintMode(tintMode);
     }
 
     @Override
@@ -120,9 +128,10 @@ public class ConversDrawable extends Drawable {
         mBase.setColorFilter(color, mode);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setHotspotBounds(int left, int top, int right, int bottom) {
-        DrawableCompat.setHotspotBounds(mBase, left, top, right, bottom);
+        mBase.setHotspotBounds(left, top, right, bottom);
     }
 
     @Override
