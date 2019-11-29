@@ -3,12 +3,14 @@ package com.mainli.utils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+
 public class AttachPosition implements View.OnLayoutChangeListener {
     private View mPositionView;
     private AttachPositionLayout mPositionLayout;
     private ViewGroup.MarginLayoutParams mMarginLayoutParams;
 
-    public AttachPosition(View positionView, ViewGroup.MarginLayoutParams marginLayoutParams, AttachPositionLayout positionLayout) {
+    public AttachPosition(View positionView, @Nullable ViewGroup.MarginLayoutParams marginLayoutParams, AttachPositionLayout positionLayout) {
         mPositionView = positionView;
         mPositionLayout = positionLayout;
         if (marginLayoutParams == null) {
@@ -49,7 +51,7 @@ public class AttachPosition implements View.OnLayoutChangeListener {
         void attachLayout(View positionView, ViewGroup.MarginLayoutParams params, int parentLeft, int parentTop, int parentRight, int parentBottom, int measuredPositionWidth, int measuredPositionHeight);
     }
 
-    public static void attach(ViewGroup targetView, final View positionView, ViewGroup.MarginLayoutParams layoutParams, AttachPositionLayout positionLayout) {
+    public static void attach(ViewGroup targetView, final View positionView, @Nullable ViewGroup.MarginLayoutParams layoutParams, AttachPositionLayout positionLayout) {
         assert (positionLayout != null);
         AttachPosition listener = new AttachPosition(positionView, layoutParams, positionLayout);
         targetView.addOnLayoutChangeListener(listener);
@@ -107,27 +109,27 @@ public class AttachPosition implements View.OnLayoutChangeListener {
         }
     }
 
-    private static void simpleAttach(ViewGroup targetView, final View positionView, ViewGroup.MarginLayoutParams layoutParams, int gravity) {
+    private static void simpleAttach(ViewGroup targetView, final View positionView, @Nullable ViewGroup.MarginLayoutParams layoutParams, int gravity) {
         attach(targetView, positionView, layoutParams, new SimpleAttachPositionLayout(gravity));
     }
 
-    public static void attachCenter(ViewGroup targetView, final View positionView, ViewGroup.MarginLayoutParams layoutParams) {
+    public static void attachCenter(ViewGroup targetView, final View positionView, @Nullable ViewGroup.MarginLayoutParams layoutParams) {
         simpleAttach(targetView, positionView, layoutParams, SimpleAttachPositionLayout.CENTER);
     }
 
-    public static void attachRightTop(ViewGroup targetView, final View positionView, ViewGroup.MarginLayoutParams layoutParams) {
+    public static void attachRightTop(ViewGroup targetView, final View positionView, @Nullable ViewGroup.MarginLayoutParams layoutParams) {
         simpleAttach(targetView, positionView, layoutParams, SimpleAttachPositionLayout.RIGHT_TOP);
     }
 
-    public static void attachRightBottom(ViewGroup targetView, final View positionView, ViewGroup.MarginLayoutParams layoutParams) {
+    public static void attachRightBottom(ViewGroup targetView, final View positionView, @Nullable ViewGroup.MarginLayoutParams layoutParams) {
         simpleAttach(targetView, positionView, layoutParams, SimpleAttachPositionLayout.RIGHT_BOTTOM);
     }
 
-    public static void attachLeftTop(ViewGroup targetView, final View positionView, ViewGroup.MarginLayoutParams layoutParams) {
+    public static void attachLeftTop(ViewGroup targetView, final View positionView, @Nullable ViewGroup.MarginLayoutParams layoutParams) {
         simpleAttach(targetView, positionView, layoutParams, SimpleAttachPositionLayout.LEFT_TOP);
     }
 
-    public static void attachLeftBottom(ViewGroup targetView, final View positionView, ViewGroup.MarginLayoutParams layoutParams) {
+    public static void attachLeftBottom(ViewGroup targetView, final View positionView, @Nullable ViewGroup.MarginLayoutParams layoutParams) {
         simpleAttach(targetView, positionView, layoutParams, SimpleAttachPositionLayout.LEFT_BOTTOM);
     }
 
