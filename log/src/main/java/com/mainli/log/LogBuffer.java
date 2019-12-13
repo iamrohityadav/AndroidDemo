@@ -15,8 +15,19 @@ public class LogBuffer {
     private String bufferPath;
     private int bufferSize;
     private boolean compress;
+    private LibLoader libLoader;
 
-    public LogBuffer(String bufferPath, int capacity, String logPath, boolean compress) {
+    public interface LibLoader {
+        void loadLibrary(String libName);
+    }
+
+    public LogBuffer(String bufferPath, int capacity, String logPath, boolean compress, LibLoader libLoader) {
+        if (libLoader != null) {
+            libLoader.loadLibrary("log4a-lib");
+        } else {
+            System.loadLibrary("log4a-lib");
+        }
+        this.libLoader = libLoader;
         this.bufferPath = bufferPath;
         this.bufferSize = capacity;
         this.logPath = logPath;
@@ -84,10 +95,6 @@ public class LogBuffer {
             }
             ptr = 0;
         }
-    }
-
-    static {
-        System.loadLibrary("log4a-lib");
     }
 
     private native static long initNative(String bufferPath, int capacity, String logPath, boolean compress);

@@ -3,6 +3,7 @@
 //
 
 #include <ctime>
+#include <cstring>
 #include "LogBufferHeader.h"
 
 using namespace log_header;

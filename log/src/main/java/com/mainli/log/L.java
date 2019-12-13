@@ -22,7 +22,7 @@ public class L {
     private static String SUFFIX_LOG = ".log";
     private static String BUFFER_NAME = "buffer.logCacher";
 
-    public static final void init(File pathFile, int burrferCapacity, boolean compress) {
+    public static final void init(File pathFile, int burrferCapacity, boolean compress, LogBuffer.LibLoader libLoader) {
         if (sLogBuffer != null) {
             throw new RuntimeException("请不要重复初始化Log配置");
         }
@@ -31,7 +31,7 @@ public class L {
         }
         String logName = new StringBuilder().append(new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()))).append(SUFFIX_LOG).toString();
         String bufferPath = new File(pathFile, BUFFER_NAME).getAbsolutePath();
-        sLogBuffer = new LogBuffer(bufferPath, burrferCapacity, new File(pathFile, logName).getAbsolutePath(), compress);
+        sLogBuffer = new LogBuffer(bufferPath, burrferCapacity, new File(pathFile, logName).getAbsolutePath(), compress, libLoader);
         sFormatter = new DateFileFormatter();
     }
 

@@ -4,6 +4,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
+import com.getkeepsafe.relinker.ReLinker
+import com.mainli.MyApplication
 import com.mainli.R
 import com.mainli.blur.BitmapBlur
 import com.mainli.utils.BitmapUtils
@@ -20,7 +22,7 @@ class RoundActivity : SeekBarActivity() {
         val imageView = ImageView(this)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         val bitmap = BitmapUtils.getTargetWidthBitmap(resources, R.mipmap.img_test, SizeUtil.getScreenWidthPixels())
-        imageView.setImageBitmap(BitmapBlur.blur(bitmap, 6F))
+        imageView.setImageBitmap(BitmapBlur.blurBitmap(bitmap, 6F) { name -> ReLinker.loadLibrary(MyApplication.getAppContext(), name) })
         roundFrameLayout.addView(imageView, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
         val layoutParams = LinearLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
         val dp50 = 50.toDpInt()

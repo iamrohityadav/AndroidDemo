@@ -6,14 +6,18 @@ import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.getkeepsafe.relinker.ReLinker;
+import com.mainli.MyApplication;
 import com.mainli.R;
 import com.mainli.blur.BitmapBlur;
+import com.mainli.blur.LibLoader;
 import com.mainli.utils.BitmapUtils;
 import com.mainli.utils.SizeUtil;
+
+import androidx.annotation.Nullable;
 
 /**
  * Camera实现3D变换
@@ -28,7 +32,7 @@ public class CamearDemoView extends View {
         super(context);
     }
 
-    public CamearDemoView(Context context, @Nullable AttributeSet attrs) {
+    public CamearDemoView(final Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -36,7 +40,12 @@ public class CamearDemoView extends View {
         mPaint.setStrokeWidth(SizeUtil.dp2Px(5));
         mCamera.rotateX(-50);
         mBitmap = BitmapUtils.getTargetWidthBitmap(getResources(), R.mipmap.logo_square, 500);
-        mBitmap = BitmapBlur.blur(mBitmap, 8f);
+        mBitmap = BitmapBlur.blurBitmap(mBitmap, 8f, new LibLoader() {
+            @Override
+            public void loadLibrary(String name) {
+                ReLinker.loadLibrary(MyApplication.getAppContext(), name);
+            }
+        });
         SizeUtil.adjustCameraZHeight(mCamera);
     }
 

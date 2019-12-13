@@ -11,7 +11,10 @@ android {
 apply plugin: 'maven-publish'
 
 def outputJarName = getLibraryName();
-
+//打包源码
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.sourceFiles
+}
 publishing {
     repositories {
         maven {
@@ -27,7 +30,7 @@ publishing {
                 artifactId outputJarName
                 version "1.0"
                 artifact source: targetFile, extension: "aar"
-                //配置上传源码
+//                //配置上传源码
                 artifact sourceJar {
                     classifier "sources"
                 }
@@ -50,10 +53,6 @@ publishing {
     }
 }
 
-//打包源码
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.sourceFiles
-}
 
 def handleCompileDependencies(dependencies, dependencyNodes) {
     if (null != dependencies.group) {
