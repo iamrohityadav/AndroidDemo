@@ -6,7 +6,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "/maven/" }
+        maven { url new File(rootProject.projectDir,"/maven/") }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
@@ -26,6 +26,7 @@ allprojects {
         jcenter()
         maven { url "../maven/" }
         maven { url "https://raw.githubusercontent.com/Android-Mainli/Maven/master" }
+        maven { url "http://download.flutter.io" }
     }
 }
 
